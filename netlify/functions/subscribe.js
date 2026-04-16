@@ -3,32 +3,34 @@ exports.handler = async function(event, context) {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const { name, email } = JSON.parse(event.body);
+  var body = JSON.parse(event.body);
+  var name = body.name;
+  var email = body.email;
 
   if (!email) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Email requerido' }) };
   }
 
-  const API_KEY = process.env.MAILERLITE_API_KEY;
-  const GROUP_ID = process.env.MAILERLITE_GROUP_ID;
+  var API_KEY = process.env.MAILERLITE_API_KEY;
+  var GROUP_ID = process.env.MAILERLITE_GROUP_ID;
 
-  const payload = {
+  var payload = {
     email: email,
     fields: { name: name || '' },
     groups: GROUP_ID ? [GROUP_ID] : []
   };
 
   try {
-    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
+    var response = await fetch('https://connect.mailerlite.com/api/subscribers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
+        'Authorization': 'Bearer ' + API_KEY
       },
       body: JSON.stringify(payload)
     });
 
-    const data = await response.json();
+    var data = await response.json();
 
     if (!response.ok) {
       return {
@@ -44,4 +46,7 @@ exports.handler = async function(event, context) {
   } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Err
+      body: JSON.stringify({ error: err.message })
+    };
+  }
+};
