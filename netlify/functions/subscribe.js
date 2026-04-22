@@ -16,6 +16,7 @@ exports.handler = async function(event, context) {
 
   var payload = {
     email: email,
+    status: 'active',
     fields: { name: name || '' },
     groups: GROUP_ID ? [GROUP_ID] : []
   };
