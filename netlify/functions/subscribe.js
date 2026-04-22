@@ -17,7 +17,7 @@ exports.handler = async function(event, context) {
   var payload = {
     email: email,
     fields: { name: name || '' },
-    groups: GROUP_ID ? [GROUP_ID] : []
+    groups: GROUP_ID ? [parseInt(GROUP_ID)] : []
   };
 
   try {
@@ -32,17 +32,11 @@ exports.handler = async function(event, context) {
 
     var data = await response.json();
 
-    if (!response.ok) {
-      return {
-        statusCode: response.status,
-        body: JSON.stringify({ error: data.message || 'Error al suscribir' })
-      };
-    }
-
     return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true })
+      statusCode: response.status,
+      body: JSON.stringify(data)
     };
+
   } catch (err) {
     return {
       statusCode: 500,
