@@ -17,7 +17,7 @@ exports.handler = async function(event, context) {
   var payload = {
     email: email,
     fields: { name: name || '' },
-    groups: GROUP_ID ? [parseInt(GROUP_ID)] : []
+    groups: GROUP_ID ? [GROUP_ID] : []
   };
 
   try {
