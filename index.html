@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -18,8 +19,13 @@
     --border: rgba(107,63,160,0.2);
     --shadow: 0 4px 40px rgba(107,63,160,0.15);
     --shadow-btn: 0 4px 16px rgba(107,63,160,0.35);
+    --verde: #2A7A5A;
+    --verde-light: rgba(42,122,90,0.12);
+    --teal: #1A6B7A;
+    --teal-light: rgba(26,107,122,0.12);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
   body { background: var(--crema); color: var(--azul-marino); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
   body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--azul-marino) 33%, var(--morado) 33% 66%, var(--naranja) 66%); z-index: 100; }
   .geo-bg { position: fixed; pointer-events: none; z-index: 0; }
@@ -31,167 +37,224 @@
   @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-  .top-nav { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+/* NAV */
+.top-nav { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
 
-  /* INTRO */
-  #intro { padding: 20px 0 80px; text-align: center; }
-  .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--naranja); border: 1.5px solid var(--naranja); padding: 6px 16px; border-radius: 40px; margin-bottom: 32px; background: var(--naranja-light); }
-  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.2; margin-bottom: 20px; color: var(--azul-marino); }
-  h1 em { font-style: italic; color: var(--morado); }
-  .subtitle { font-size: 17px; line-height: 1.7; color: var(--gris-texto); max-width: 520px; margin: 0 auto 40px; font-weight: 300; }
-  .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--morado), var(--naranja)); margin: 0 auto 40px; border-radius: 2px; }
-  .stats { display: flex; justify-content: center; gap: 48px; margin-bottom: 48px; }
-  .stat { text-align: center; }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--morado); display: block; font-weight: 700; }
-  .stat-label { font-size: 12px; letter-spacing: 0.08em; color: rgba(28,43,74,0.5); text-transform: uppercase; }
+/* INTRO */
+#intro { padding: 16px 0 60px; text-align: center; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(–naranja); border: 1.5px solid var(–naranja); padding: 6px 16px; border-radius: 40px; margin-bottom: 28px; background: var(–naranja-light); }
+h1 { font-family: ‘Playfair Display’, serif; font-size: clamp(1.85rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 16px; color: var(–azul-marino); }
+h1 em { font-style: italic; color: var(–morado); }
+.subtitle { font-size: 16px; line-height: 1.7; color: var(–gris-texto); max-width: 520px; margin: 0 auto 24px; font-weight: 300; }
+.divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(–morado), var(–naranja)); margin: 0 auto 28px; border-radius: 2px; }
 
-  /* BUTTONS */
-  .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--morado); color: #FFFFFF; padding: 18px 44px; border: 2px solid var(--morado); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s; box-shadow: var(--shadow-btn); }
-  .btn-primary:hover { background: var(--naranja); border-color: var(--naranja); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(244,121,32,0.4); }
-  .btn-primary svg { transition: transform 0.2s; }
-  .btn-primary:hover svg { transform: translateX(4px); }
+/* RESEARCH BADGE */
+.research-badge {
+display: inline-flex; align-items: center; gap: 10px;
+background: white; border: 1.5px solid var(–border);
+border-radius: 40px; padding: 10px 20px;
+margin: 0 auto 28px; box-shadow: 0 2px 12px rgba(107,63,160,0.1);
+}
+.research-badge-logo {
+font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
+text-transform: uppercase; color: white;
+background: var(–morado-deep); padding: 3px 8px; border-radius: 4px;
+}
+.research-badge-text {
+font-size: 12px; color: var(–gris-texto); font-weight: 400;
+}
+.research-badge-text strong { color: var(–azul-marino); font-weight: 600; }
 
-  /* QUIZ */
-  #quiz { padding: 20px 0 80px; }
-  .quiz-header { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
-  .progress-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-  .progress-text { font-size: 12px; letter-spacing: 0.1em; color: rgba(28,43,74,0.55); text-transform: uppercase; font-weight: 600; }
-  .progress-bar { width: 180px; height: 5px; background: rgba(107,63,160,0.15); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--morado), var(--naranja)); border-radius: 3px; transition: width 0.4s ease; }
-  .question-block { display: none; animation: fadeIn 0.4s ease; }
-  .question-block.active { display: block; }
-  .q-category { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--naranja); margin-bottom: 12px; }
-  .q-number { font-family: 'Playfair Display', serif; font-size: 13px; color: rgba(28,43,74,0.4); margin-bottom: 4px; }
-  .q-text { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 3vw, 1.55rem); line-height: 1.45; margin-bottom: 36px; color: var(--azul-marino); }
-  .options { display: flex; flex-direction: column; gap: 14px; }
-  .option { display: flex; align-items: flex-start; gap: 16px; padding: 20px 24px; background: white; border: 2px solid #C4A8E0; border-radius: 10px; cursor: pointer; transition: all 0.2s; text-align: left; }
-  .option:hover { border-color: var(--morado); box-shadow: 0 4px 20px rgba(107,63,160,0.2); transform: translateX(4px); background: rgba(107,63,160,0.04); }
-  .option.selected { border-color: var(--morado); background: rgba(107,63,160,0.1); box-shadow: 0 4px 20px rgba(107,63,160,0.2); }
-  .opt-letter { width: 36px; height: 36px; border-radius: 50%; background: #EDE0F7; border: 2px solid #9B6FD0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: var(--morado-deep); flex-shrink: 0; transition: all 0.2s; }
-  .option.selected .opt-letter { background: var(--morado); border-color: var(--morado); color: white; box-shadow: 0 2px 8px rgba(107,63,160,0.4); }
-  .opt-text { font-size: 15px; line-height: 1.6; color: #2A3A5C; padding-top: 5px; font-weight: 400; }
-  .option.selected .opt-text { color: var(--azul-marino); font-weight: 600; }
-  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; }
-  .btn-back { background: white; border: 2px solid rgba(107,63,160,0.3); color: var(--morado); padding: 12px 28px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-  .btn-back:hover { border-color: var(--morado); background: rgba(107,63,160,0.06); }
-  .btn-next { background: var(--morado); color: #FFFFFF; border: 2px solid var(--morado); padding: 14px 36px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; opacity: 0.35; pointer-events: none; }
-  .btn-next.ready { opacity: 1; pointer-events: all; box-shadow: var(--shadow-btn); }
-  .btn-next.ready:hover { background: var(--naranja); border-color: var(--naranja); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(244,121,32,0.4); }
+.stats { display: flex; justify-content: center; gap: 48px; margin-bottom: 36px; }
+.stat { text-align: center; }
+.stat-num { font-family: ‘Playfair Display’, serif; font-size: 28px; color: var(–morado); display: block; font-weight: 700; }
+.stat-label { font-size: 12px; letter-spacing: 0.08em; color: rgba(28,43,74,0.5); text-transform: uppercase; }
 
-  /* CAPTURE */
-  #capture { padding: 60px 0 80px; }
-  .capture-card { background: white; border-radius: 16px; padding: 52px 48px; border: 1px solid var(--border); box-shadow: var(--shadow); max-width: 560px; margin: 0 auto; text-align: center; }
-  .capture-icon { font-size: 44px; margin-bottom: 20px; display: block; animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
-  .capture-card h2 { font-family: 'Playfair Display', serif; font-size: 1.75rem; line-height: 1.3; margin-bottom: 12px; color: var(--azul-marino); }
-  .capture-sub { font-size: 15px; line-height: 1.7; color: var(--gris-texto); margin-bottom: 36px; font-weight: 300; }
-  .field-group { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; text-align: left; }
-  .field-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--morado); margin-bottom: 6px; display: block; }
-  .field-input { width: 100%; padding: 14px 18px; border: 2px solid rgba(107,63,160,0.3); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--azul-marino); background: #FFFFFF; transition: all 0.2s; outline: none; }
-  .field-input:focus { border-color: var(--morado); box-shadow: 0 0 0 3px rgba(107,63,160,0.12); }
-  .field-input::placeholder { color: rgba(28,43,74,0.35); }
-  .consent-box { background: rgba(107,63,160,0.06); border: 1.5px solid rgba(107,63,160,0.25); border-radius: 10px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; margin-bottom: 28px; text-align: left; cursor: pointer; }
-  .consent-box input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--morado); margin-top: 2px; cursor: pointer; }
-  .consent-text { font-size: 13px; line-height: 1.6; color: rgba(28,43,74,0.75); }
-  .consent-text strong { color: var(--azul-marino); font-weight: 700; }
-  .btn-reveal { width: 100%; background: var(--morado); color: #FFFFFF; border: 2px solid var(--morado); padding: 18px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.25s; box-shadow: var(--shadow-btn); }
-  .btn-reveal:hover { background: var(--naranja); border-color: var(--naranja); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(244,121,32,0.4); }
-  .btn-reveal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  .skip-link { display: block; margin-top: 16px; font-size: 13px; color: rgba(28,43,74,0.45); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
-  .skip-link:hover { color: var(--morado); }
-  .privacy-note { font-size: 11px; color: rgba(28,43,74,0.35); margin-top: 20px; letter-spacing: 0.03em; }
+/* BUTTONS */
+.btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(–morado); color: #FFFFFF; padding: 18px 44px; border: 2px solid var(–morado); border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s; box-shadow: var(–shadow-btn); }
+.btn-primary:hover { background: var(–naranja); border-color: var(–naranja); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(244,121,32,0.4); }
+.btn-primary svg { transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translateX(4px); }
 
-  /* RESULT */
-  #result { padding: 40px 0 80px; display: none; }
-  #result.active { display: block; }
-  .result-header { text-align: center; margin-bottom: 48px; }
-  .result-icon { font-size: 52px; margin-bottom: 16px; display: block; animation: pop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
-  .result-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 7px 20px; border-radius: 40px; margin-bottom: 20px; }
-  .result-name { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 12px; color: var(--azul-marino); }
-  .result-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 18px; color: rgba(28,43,74,0.55); margin-bottom: 32px; }
-  .result-divider { width: 48px; height: 3px; margin: 0 auto; border-radius: 2px; }
-  .result-body { background: white; border-radius: 12px; padding: 40px; margin-bottom: 28px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-  .result-body p { font-size: 16px; line-height: 1.8; color: rgba(28,43,74,0.75); margin-bottom: 24px; }
-  .result-body p:last-child { margin-bottom: 0; }
-  .result-block { padding: 24px; border-radius: 10px; margin-bottom: 16px; }
-  .result-block h4 { font-family: 'Playfair Display', serif; font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(--azul-marino); }
-  .result-block p { font-size: 15px !important; line-height: 1.7 !important; margin-bottom: 0 !important; }
-  .score-bar-section { background: white; border-radius: 12px; padding: 32px 40px; margin-bottom: 28px; border: 1px solid var(--border); box-shadow: var(--shadow); }
-  .score-bar-section h3 { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 24px; color: var(--azul-marino); }
-  .score-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-  .score-label { font-size: 13px; font-weight: 600; width: 120px; flex-shrink: 0; color: var(--azul-marino); }
-  .score-track { flex: 1; height: 8px; background: rgba(107,63,160,0.1); border-radius: 4px; overflow: hidden; }
-  .score-fill { height: 100%; border-radius: 4px; transition: width 1s ease 0.3s; width: 0; }
-  .score-num { font-size: 13px; font-weight: 700; width: 32px; text-align: right; color: var(--azul-marino); }
-  .cta-box { background: linear-gradient(135deg, var(--morado-deep) 0%, var(--morado) 60%, var(--azul-marino) 100%); color: white; border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 28px; position: relative; overflow: hidden; }
-  .cta-box::before { content: ''; position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: var(--naranja); clip-path: polygon(50% 0%, 100% 100%, 0% 100%); opacity: 0.2; }
-  .cta-box h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 12px; position: relative; z-index: 1; color: #FFFFFF; }
-  .cta-box p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 28px; max-width: 460px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; color: #FFFFFF; }
-  .btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--naranja); color: #FFFFFF; padding: 16px 40px; border: 2px solid var(--naranja); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; text-decoration: none; position: relative; z-index: 1; box-shadow: 0 4px 16px rgba(244,121,32,0.4); }
-  .btn-cta:hover { background: white; color: var(--morado); border-color: white; transform: translateY(-2px); }
-  .share-row { text-align: center; }
-  .share-row p { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(28,43,74,0.45); margin-bottom: 16px; font-weight: 600; }
-  .btn-share { display: inline-flex; align-items: center; gap: 8px; background: white; border: 2px solid rgba(107,63,160,0.3); color: var(--morado); padding: 12px 28px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 6px; }
-  .btn-share:hover { border-color: var(--morado); background: rgba(107,63,160,0.06); }
-  .btn-retry { background: none; border: none; color: rgba(28,43,74,0.4); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; text-decoration: underline; margin-top: 20px; display: block; text-align: center; }
-  .btn-retry:hover { color: var(--morado); }
+/* QUIZ */
+#quiz { padding: 16px 0 60px; }
+.quiz-header { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(–border); }
+.progress-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.progress-text { font-size: 12px; letter-spacing: 0.1em; color: rgba(28,43,74,0.55); text-transform: uppercase; font-weight: 600; }
+.progress-bar { width: 180px; height: 5px; background: rgba(107,63,160,0.15); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(–morado), var(–naranja)); border-radius: 3px; transition: width 0.4s ease; }
+.question-block { display: none; animation: fadeIn 0.4s ease; }
+.question-block.active { display: block; }
+.q-category { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(–naranja); margin-bottom: 10px; }
+.q-number { font-family: ‘Playfair Display’, serif; font-size: 13px; color: rgba(28,43,74,0.4); margin-bottom: 4px; }
+.q-text { font-family: ‘Playfair Display’, serif; font-size: clamp(1.15rem, 3vw, 1.5rem); line-height: 1.45; margin-bottom: 28px; color: var(–azul-marino); }
+.options { display: flex; flex-direction: column; gap: 12px; }
+.option { display: flex; align-items: flex-start; gap: 16px; padding: 18px 22px; background: white; border: 2px solid #C4A8E0; border-radius: 10px; cursor: pointer; transition: all 0.2s; text-align: left; }
+.option:hover { border-color: var(–morado); box-shadow: 0 4px 20px rgba(107,63,160,0.2); transform: translateX(4px); background: rgba(107,63,160,0.04); }
+.option.selected { border-color: var(–morado); background: rgba(107,63,160,0.1); box-shadow: 0 4px 20px rgba(107,63,160,0.2); }
+.opt-letter { width: 34px; height: 34px; border-radius: 50%; background: #EDE0F7; border: 2px solid #9B6FD0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: var(–morado-deep); flex-shrink: 0; transition: all 0.2s; }
+.option.selected .opt-letter { background: var(–morado); border-color: var(–morado); color: white; box-shadow: 0 2px 8px rgba(107,63,160,0.4); }
+.opt-text { font-size: 15px; line-height: 1.6; color: #2A3A5C; padding-top: 4px; font-weight: 400; }
+.option.selected .opt-text { color: var(–azul-marino); font-weight: 600; }
+.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; }
+.btn-back { background: white; border: 2px solid rgba(107,63,160,0.3); color: var(–morado); padding: 12px 28px; border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-back:hover { border-color: var(–morado); background: rgba(107,63,160,0.06); }
+.btn-next { background: var(–morado); color: #FFFFFF; border: 2px solid var(–morado); padding: 14px 36px; border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; opacity: 0.35; pointer-events: none; }
+.btn-next.ready { opacity: 1; pointer-events: all; box-shadow: var(–shadow-btn); }
+.btn-next.ready:hover { background: var(–naranja); border-color: var(–naranja); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(244,121,32,0.4); }
 
-  /* PROFILE COLORS */
-  .tag-pionero { background: rgba(244,121,32,0.15); color: #C05F10; border: 2px solid rgba(244,121,32,0.4); }
-  .tag-humano { background: rgba(107,63,160,0.12); color: var(--morado-deep); border: 2px solid rgba(107,63,160,0.35); }
-  .tag-estrategico { background: rgba(28,43,74,0.1); color: var(--azul-marino); border: 2px solid rgba(28,43,74,0.3); }
-  .divider-pionero { background: linear-gradient(90deg, var(--naranja), #F7A558); }
-  .divider-humano { background: linear-gradient(90deg, var(--morado), #9B6FD0); }
-  .divider-estrategico { background: linear-gradient(90deg, var(--azul-marino), #3D5A8A); }
-  .block-pionero { background: rgba(244,121,32,0.08); border-left: 3px solid var(--naranja); }
-  .block-humano { background: rgba(107,63,160,0.08); border-left: 3px solid var(--morado); }
-  .block-estrategico { background: rgba(28,43,74,0.06); border-left: 3px solid var(--azul-marino); }
-  .fill-pionero { background: var(--naranja); }
-  .fill-humano { background: var(--morado); }
-  .fill-estrategico { background: var(--azul-marino); }
+/* CAPTURE */
+#capture { padding: 60px 0 80px; }
+.capture-card { background: white; border-radius: 16px; padding: 48px 44px; border: 1px solid var(–border); box-shadow: var(–shadow); max-width: 560px; margin: 0 auto; text-align: center; }
+.capture-icon { font-size: 44px; margin-bottom: 16px; display: block; animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+.capture-card h2 { font-family: ‘Playfair Display’, serif; font-size: 1.7rem; line-height: 1.3; margin-bottom: 12px; color: var(–azul-marino); }
+.capture-sub { font-size: 15px; line-height: 1.7; color: var(–gris-texto); margin-bottom: 32px; font-weight: 300; }
+.field-group { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; text-align: left; }
+.field-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(–morado); margin-bottom: 6px; display: block; }
+.field-input { width: 100%; padding: 14px 18px; border: 2px solid rgba(107,63,160,0.3); border-radius: 8px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; color: var(–azul-marino); background: #FFFFFF; transition: all 0.2s; outline: none; }
+.field-input:focus { border-color: var(–morado); box-shadow: 0 0 0 3px rgba(107,63,160,0.12); }
+.field-input::placeholder { color: rgba(28,43,74,0.35); }
+.consent-box { background: rgba(107,63,160,0.06); border: 1.5px solid rgba(107,63,160,0.25); border-radius: 10px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; text-align: left; cursor: pointer; }
+.consent-box input[type=“checkbox”] { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(–morado); margin-top: 2px; cursor: pointer; }
+.consent-text { font-size: 13px; line-height: 1.6; color: rgba(28,43,74,0.75); }
+.consent-text strong { color: var(–azul-marino); font-weight: 700; }
+.btn-reveal { width: 100%; background: var(–morado); color: #FFFFFF; border: 2px solid var(–morado); padding: 18px; border-radius: 8px; font-family: ‘DM Sans’, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.25s; box-shadow: var(–shadow-btn); }
+.btn-reveal:hover { background: var(–naranja); border-color: var(–naranja); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(244,121,32,0.4); }
+.skip-link { display: block; margin-top: 14px; font-size: 13px; color: rgba(28,43,74,0.45); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: ‘DM Sans’, sans-serif; transition: color 0.2s; }
+.skip-link:hover { color: var(–morado); }
+.privacy-note { font-size: 11px; color: rgba(28,43,74,0.35); margin-top: 16px; letter-spacing: 0.03em; }
 
-  /* FOOTER */
-  .brand-footer { text-align: center; padding: 32px 0 12px; position: relative; z-index: 1; }
-  .brand-footer-bar { width: 100%; height: 3px; background: linear-gradient(90deg, var(--azul-marino) 33%, var(--morado) 33% 66%, var(--naranja) 66%); margin-bottom: 16px; }
-  .brand-footer-text { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(28,43,74,0.35); }
-  .brand-footer-text span { color: var(--morado); font-weight: 700; }
+/* RESULT */
+#result { padding: 32px 0 60px; display: none; }
+#result.active { display: block; }
+.result-header { text-align: center; margin-bottom: 40px; }
+.result-icon { font-size: 52px; margin-bottom: 14px; display: block; animation: pop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+.result-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 7px 20px; border-radius: 40px; margin-bottom: 18px; }
+.result-name { font-family: ‘Playfair Display’, serif; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.2; margin-bottom: 10px; color: var(–azul-marino); }
+.result-tagline { font-family: ‘Playfair Display’, serif; font-style: italic; font-size: 17px; color: rgba(28,43,74,0.55); margin-bottom: 28px; }
+.result-divider { width: 48px; height: 3px; margin: 0 auto; border-radius: 2px; }
 
-  /* MOBILE */
-  @media (max-width: 600px) {
-    .stats { gap: 28px; }
-    .result-body, .score-bar-section, .cta-box { padding: 28px 24px; }
-    .quiz-header { flex-direction: column; gap: 16px; align-items: flex-start; }
-    .progress-wrap { align-items: flex-start; }
-    .progress-bar { width: 200px; }
-    .capture-card { padding: 36px 24px; }
-    .opt-text { font-size: 17px; line-height: 1.65; }
-    .q-text { font-size: 1.25rem; }
-    .q-category { font-size: 13px; }
-    .btn-primary { font-size: 17px; padding: 18px 36px; width: 100%; justify-content: center; }
-    .btn-next { font-size: 17px; padding: 16px 32px; }
-    .btn-back { font-size: 16px; padding: 14px 22px; }
-    .btn-reveal { font-size: 17px; padding: 20px; }
-    .btn-cta { font-size: 16px; }
-    .btn-share { font-size: 15px; }
-    .field-input { font-size: 17px; padding: 16px 18px; }
-    .field-label { font-size: 13px; }
-    .consent-text { font-size: 15px; }
-    .capture-card h2 { font-size: 1.6rem; }
-    .capture-sub { font-size: 16px; }
-    .result-body p { font-size: 17px; }
-    .result-block p { font-size: 16px !important; }
-    .result-tagline { font-size: 17px; }
-    .cta-box h3 { font-size: 20px; }
-    .cta-box p { font-size: 16px; }
-    .score-bar-section h3 { font-size: 18px; }
-    .score-label { width: 90px; font-size: 13px; }
-    .score-num { font-size: 14px; }
-    .opt-letter { width: 38px; height: 38px; font-size: 15px; }
-    .progress-text { font-size: 13px; }
-    .option { padding: 18px 20px; }
-    .stat-num { font-size: 26px; }
-    .stat-label { font-size: 13px; }
-  }
+.result-body { background: white; border-radius: 12px; padding: 36px 40px; margin-bottom: 24px; border: 1px solid var(–border); box-shadow: var(–shadow); }
+.result-body p { font-size: 16px; line-height: 1.8; color: rgba(28,43,74,0.75); margin-bottom: 20px; }
+.result-body p:last-child { margin-bottom: 0; }
+.result-block { padding: 22px; border-radius: 10px; margin-bottom: 14px; }
+.result-block:last-child { margin-bottom: 0; }
+.result-block h4 { font-family: ‘Playfair Display’, serif; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(–azul-marino); }
+.result-block p { font-size: 15px !important; line-height: 1.7 !important; margin-bottom: 0 !important; }
+
+/* RESEARCH FACT BOX */
+.fact-box {
+background: var(–morado-light);
+border: 1.5px solid var(–border);
+border-radius: 10px;
+padding: 20px 24px;
+margin-bottom: 14px;
+display: flex;
+gap: 14px;
+align-items: flex-start;
+}
+.fact-box-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.fact-box-content {}
+.fact-box-label {
+font-size: 10px; font-weight: 800; letter-spacing: 0.18em;
+text-transform: uppercase; color: var(–morado);
+margin-bottom: 6px; display: block;
+}
+.fact-box-text {
+font-size: 14px !important; line-height: 1.7 !important;
+color: rgba(28,43,74,0.8) !important; margin-bottom: 0 !important;
+font-style: italic;
+}
+.fact-box-source {
+font-size: 11px; color: rgba(28,43,74,0.45);
+margin-top: 6px; display: block; font-style: normal;
+font-weight: 600; letter-spacing: 0.05em;
+}
+
+.score-bar-section { background: white; border-radius: 12px; padding: 28px 40px; margin-bottom: 24px; border: 1px solid var(–border); box-shadow: var(–shadow); }
+.score-bar-section h3 { font-family: ‘Playfair Display’, serif; font-size: 17px; margin-bottom: 20px; color: var(–azul-marino); }
+.score-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+.score-label { font-size: 13px; font-weight: 600; width: 130px; flex-shrink: 0; color: var(–azul-marino); }
+.score-track { flex: 1; height: 8px; background: rgba(107,63,160,0.1); border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; border-radius: 4px; transition: width 1s ease 0.3s; width: 0; }
+.score-num { font-size: 13px; font-weight: 700; width: 32px; text-align: right; color: var(–azul-marino); }
+
+.cta-box { background: linear-gradient(135deg, var(–morado-deep) 0%, var(–morado) 60%, var(–azul-marino) 100%); color: white; border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 24px; position: relative; overflow: hidden; }
+.cta-box::before { content: ‘’; position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: var(–naranja); clip-path: polygon(50% 0%, 100% 100%, 0% 100%); opacity: 0.2; }
+.cta-box h3 { font-family: ‘Playfair Display’, serif; font-size: 21px; margin-bottom: 10px; position: relative; z-index: 1; color: #FFFFFF; }
+.cta-box p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 24px; max-width: 460px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; color: #FFFFFF; }
+.btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(–naranja); color: #FFFFFF; padding: 16px 40px; border: 2px solid var(–naranja); border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; text-decoration: none; position: relative; z-index: 1; box-shadow: 0 4px 16px rgba(244,121,32,0.4); }
+.btn-cta:hover { background: white; color: var(–morado); border-color: white; transform: translateY(-2px); }
+
+/* RESEARCH LINK AT BOTTOM */
+.research-link-box {
+background: white; border: 1.5px solid var(–border);
+border-radius: 12px; padding: 24px 32px;
+margin-bottom: 24px; text-align: center;
+box-shadow: 0 2px 16px rgba(107,63,160,0.08);
+}
+.research-link-box p {
+font-size: 13px; color: var(–gris-texto);
+line-height: 1.7; margin-bottom: 14px;
+}
+.research-link-box p strong { color: var(–azul-marino); }
+.btn-research {
+display: inline-flex; align-items: center; gap: 8px;
+background: white; border: 2px solid var(–morado);
+color: var(–morado); padding: 12px 28px; border-radius: 6px;
+font-family: ‘DM Sans’, sans-serif; font-size: 13px; font-weight: 700;
+cursor: pointer; transition: all 0.2s; text-decoration: none;
+letter-spacing: 0.03em;
+}
+.btn-research:hover { background: var(–morado); color: white; transform: translateY(-2px); }
+
+.share-row { text-align: center; margin-bottom: 8px; }
+.share-row p { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(28,43,74,0.45); margin-bottom: 14px; font-weight: 600; }
+.btn-share { display: inline-flex; align-items: center; gap: 8px; background: white; border: 2px solid rgba(107,63,160,0.3); color: var(–morado); padding: 12px 24px; border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 5px; }
+.btn-share:hover { border-color: var(–morado); background: rgba(107,63,160,0.06); }
+.btn-retry { background: none; border: none; color: rgba(28,43,74,0.4); font-family: ‘DM Sans’, sans-serif; font-size: 13px; cursor: pointer; text-decoration: underline; margin-top: 16px; display: block; text-align: center; }
+.btn-retry:hover { color: var(–morado); }
+
+/* PROFILE COLORS */
+.tag-conector { background: var(–morado-light); color: var(–morado-deep); border: 2px solid rgba(107,63,160,0.35); }
+.tag-traductor { background: var(–naranja-light); color: #C05F10; border: 2px solid rgba(244,121,32,0.4); }
+.tag-activador { background: var(–verde-light); color: var(–verde); border: 2px solid rgba(42,122,90,0.35); }
+.divider-conector { background: linear-gradient(90deg, var(–morado), #9B6FD0); }
+.divider-traductor { background: linear-gradient(90deg, var(–naranja), #F7A558); }
+.divider-activador { background: linear-gradient(90deg, var(–verde), #3DAA7A); }
+.block-conector { background: rgba(107,63,160,0.07); border-left: 3px solid var(–morado); }
+.block-traductor { background: rgba(244,121,32,0.07); border-left: 3px solid var(–naranja); }
+.block-activador { background: rgba(42,122,90,0.07); border-left: 3px solid var(–verde); }
+.fill-conector { background: var(–morado); }
+.fill-traductor { background: var(–naranja); }
+.fill-activador { background: var(–verde); }
+
+/* FOOTER */
+.brand-footer { text-align: center; padding: 28px 0 10px; position: relative; z-index: 1; }
+.brand-footer-bar { width: 100%; height: 3px; background: linear-gradient(90deg, var(–azul-marino) 33%, var(–morado) 33% 66%, var(–naranja) 66%); margin-bottom: 14px; }
+.brand-footer-text { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(28,43,74,0.35); }
+.brand-footer-text span { color: var(–morado); font-weight: 700; }
+
+/* MOBILE */
+@media (max-width: 600px) {
+.stats { gap: 24px; }
+.result-body, .score-bar-section, .cta-box { padding: 24px 20px; }
+.quiz-header { flex-direction: column; gap: 14px; align-items: flex-start; }
+.progress-wrap { align-items: flex-start; }
+.progress-bar { width: 200px; }
+.capture-card { padding: 32px 20px; }
+.opt-text { font-size: 16px; }
+.q-text { font-size: 1.2rem; }
+.btn-primary { font-size: 16px; padding: 18px 32px; width: 100%; justify-content: center; }
+.btn-next { font-size: 16px; padding: 16px 28px; }
+.btn-back { font-size: 15px; padding: 14px 20px; }
+.btn-reveal { font-size: 16px; padding: 18px; }
+.field-input { font-size: 16px; }
+.score-label { width: 100px; }
+.research-link-box { padding: 20px; }
+}
 </style>
+
 </head>
 <body>
 
@@ -200,27 +263,39 @@
 
 <div class="top-nav">
   <span style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--morado);letter-spacing:0.02em;">Alfa Consultores</span>
-  <span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(28,43,74,0.45);font-weight:600;">HR Consulting &amp; Training</span>
+  <span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(28,43,74,0.45);font-weight:600;">HR Consulting & Training</span>
 </div>
 
-<!-- INTRO -->
+<!-- ══════════════════════════════════════ INTRO -->
+
 <div id="intro" class="screen active">
   <div class="container">
-    <div style="padding-top:40px;text-align:center;">
+    <div style="padding-top:24px;text-align:center;">
       <div class="tag">Quiz de Liderazgo</div>
-      <h1>¿Qué tipo de líder<br>eres <em>en la era de la IA</em>?</h1>
-      <p class="subtitle">10 preguntas que revelan tu estilo de liderazgo, tus fortalezas reales y el desafío que más te está costando hoy.</p>
+      <h1>Descubre la competencia<br>de liderazgo que <em>ya tienes</em><br>y no estás usando</h1>
+      <p class="subtitle">7 preguntas basadas en el research de Boston Consulting Group que revelan tu ventaja real como líder — incluso si tú mismo no la has visto todavía.</p>
       <div class="divider"></div>
-      <div class="stats">
-        <div class="stat"><span class="stat-num">10</span><span class="stat-label">Preguntas</span></div>
-        <div class="stat"><span class="stat-num">4'</span><span class="stat-label">Duración</span></div>
-        <div class="stat"><span class="stat-num">3</span><span class="stat-label">Perfiles</span></div>
-      </div>
-      <button class="btn-primary" onclick="startQuiz()">
-        Comenzar el quiz
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
+
+```
+  <div style="display:flex;justify-content:center;margin-bottom:28px;">
+    <div class="research-badge">
+      <span class="research-badge-logo">BCG</span>
+      <span class="research-badge-text">Basado en <strong>Generative Leadership</strong> · Boston Consulting Group</span>
     </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-num">7</span><span class="stat-label">Preguntas</span></div>
+    <div class="stat"><span class="stat-num">3'</span><span class="stat-label">Duración</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Perfiles</span></div>
+  </div>
+  <button class="btn-primary" onclick="startQuiz()">
+    Comenzar el quiz
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
+</div>
+```
+
   </div>
   <div class="brand-footer">
     <div class="brand-footer-bar"></div>
@@ -228,13 +303,14 @@
   </div>
 </div>
 
-<!-- QUIZ -->
+<!-- ══════════════════════════════════════ QUIZ -->
+
 <div id="quiz" class="screen">
   <div class="container">
     <div class="quiz-header">
       <div class="progress-wrap">
-        <span class="progress-text" id="progress-text">Pregunta 1 de 10</span>
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:10%"></div></div>
+        <span class="progress-text" id="progress-text">Pregunta 1 de 7</span>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:14%"></div></div>
       </div>
     </div>
     <div id="questions-container"></div>
@@ -245,17 +321,18 @@
   </div>
 </div>
 
-<!-- CAPTURE -->
+<!-- ══════════════════════════════════════ CAPTURE -->
+
 <div id="capture" class="screen">
   <div class="container">
     <div class="capture-card">
       <span class="capture-icon">✨</span>
       <h2>¡Tu resultado está listo!</h2>
-      <p class="capture-sub">Dejanos tu nombre y correo para ver tu perfil completo y recibir tips exclusivos de liderazgo cada semana.</p>
+      <p class="capture-sub">Ingresá tu nombre y correo para ver tu perfil completo con tus superpoderes, tu área de crecimiento y el dato del research que te va a sorprender.</p>
       <div class="field-group">
         <div>
           <label class="field-label" for="cap-name">Nombre</label>
-          <input class="field-input" type="text" id="cap-name" placeholder="¿Cómo te llamas?" autocomplete="given-name">
+          <input class="field-input" type="text" id="cap-name" placeholder="¿Cómo te llaman?" autocomplete="given-name">
         </div>
         <div>
           <label class="field-label" for="cap-email">Correo electrónico</label>
@@ -264,16 +341,17 @@
       </div>
       <label class="consent-box" for="cap-consent">
         <input type="checkbox" id="cap-consent">
-        <span class="consent-text"><strong>Sí, quiero recibir más contenido.</strong><br>Acepto recibir correos con tips de liderazgo, recursos y novedades sobre los programas de Alfa Consultores. Puedo darme de baja cuando quiera.</span>
+        <span class="consent-text"><strong>Sí, quiero recibir más contenido.</strong><br>Acepto recibir correos con tips de liderazgo y novedades de los programas de Alfa Consultores. Puedo darme de baja cuando quiera.</span>
       </label>
-      <button class="btn-reveal" id="btn-reveal" onclick="submitCapture()">Ver mi resultado →</button>
+      <button class="btn-reveal" onclick="submitCapture()">Ver mi resultado →</button>
       <button class="skip-link" onclick="skipCapture()">Prefiero ver el resultado sin registrarme</button>
-      <p class="privacy-note">🔒 Tu información es privada y nunca será compartida con terceros.</p>
+      <p class="privacy-note">🔒 Tu información es privada y nunca será compartida.</p>
     </div>
   </div>
 </div>
 
-<!-- RESULT -->
+<!-- ══════════════════════════════════════ RESULT -->
+
 <div id="result" class="screen">
   <div class="container">
     <div class="result-header">
@@ -283,135 +361,215 @@
       <p class="result-tagline" id="res-tagline"></p>
       <div class="result-divider" id="res-divider"></div>
     </div>
-    <div class="result-body" id="res-body"></div>
-    <div class="score-bar-section">
-      <h3>Tu perfil completo</h3>
-      <div class="score-row">
-        <span class="score-label">🚀 Pionero</span>
-        <div class="score-track"><div class="score-fill fill-pionero" id="bar-a"></div></div>
-        <span class="score-num" id="num-a"></span>
-      </div>
-      <div class="score-row">
-        <span class="score-label">🤝 Humano</span>
-        <div class="score-track"><div class="score-fill fill-humano" id="bar-b"></div></div>
-        <span class="score-num" id="num-b"></span>
-      </div>
-      <div class="score-row">
-        <span class="score-label">🏛️ Estratégico</span>
-        <div class="score-track"><div class="score-fill fill-estrategico" id="bar-c"></div></div>
-        <span class="score-num" id="num-c"></span>
-      </div>
-    </div>
-    <div class="cta-box">
-      <h3 id="cta-title"></h3>
-      <p id="cta-text"></p>
-      <a href="https://subscribepage.io/XsRySq" target="_blank" rel="noopener noreferrer" class="btn-cta">Ver los programas →</a>
-    </div>
-    <div class="share-row">
-      <p>Compartí tu resultado</p>
-      <button class="btn-share" onclick="shareResult()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        LinkedIn
-      </button>
-      <button class="btn-share" onclick="copyLink()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copiar link
-      </button>
-    </div>
-    <button class="btn-retry" onclick="restartQuiz()">Hacer el quiz de nuevo</button>
-    <div class="brand-footer">
-      <div class="brand-footer-bar"></div>
-      <p class="brand-footer-text">Desarrollado por <span>Alfa Consultores</span> · HR Consulting &amp; Training</p>
-    </div>
+
+```
+<div class="result-body" id="res-body"></div>
+
+<div class="score-bar-section">
+  <h3>Tu perfil completo</h3>
+  <div class="score-row">
+    <span class="score-label">⚡ El Conector</span>
+    <div class="score-track"><div class="score-fill fill-conector" id="bar-a"></div></div>
+    <span class="score-num" id="num-a"></span>
+  </div>
+  <div class="score-row">
+    <span class="score-label">🧭 El Traductor</span>
+    <div class="score-track"><div class="score-fill fill-traductor" id="bar-b"></div></div>
+    <span class="score-num" id="num-b"></span>
+  </div>
+  <div class="score-row">
+    <span class="score-label">🔥 El Activador</span>
+    <div class="score-track"><div class="score-fill fill-activador" id="bar-c"></div></div>
+    <span class="score-num" id="num-c"></span>
   </div>
 </div>
 
+<div class="cta-box">
+  <h3 id="cta-title"></h3>
+  <p id="cta-text"></p>
+  <a href="https://subscribepage.io/XsRySq" class="btn-cta" target="_blank">Ver los programas →</a>
+</div>
+
+<!-- RESEARCH LINK BOX -->
+<div class="research-link-box">
+  <p>Este quiz está basado en el estudio de <strong>Boston Consulting Group</strong> sobre <em>Generative Leadership</em> — uno de los marcos de liderazgo más influyentes de los últimos años, construido a partir de investigación con más de 725 ejecutivos en organizaciones globales.</p>
+  <a href="https://www.bcg.com/publications/2022/all-about-generative-leadership-and-its-benefits" target="_blank" class="btn-research">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    Leer el research completo → BCG.com
+  </a>
+</div>
+
+<div class="share-row">
+  <p>Compartí tu resultado</p>
+  <button class="btn-share" onclick="shareLinkedIn()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    LinkedIn
+  </button>
+  <button class="btn-share" onclick="copyLink()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    Copiar link
+  </button>
+</div>
+<button class="btn-retry" onclick="restartQuiz()">Hacer el quiz de nuevo</button>
+
+<div class="brand-footer">
+  <div class="brand-footer-bar"></div>
+  <p class="brand-footer-text">Desarrollado por <span>Alfa Consultores</span> · HR Consulting & Training</p>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ SCRIPT -->
+
 <script>
 const questions = [
-  { category: "Bienestar y Energía", text: "Terminas una semana de alta demanda. ¿Cómo llegas al viernes?", options: [
-    { letter: "A", text: "Cansado/a pero satisfecho/a — cuando hay propósito, la energía se sostiene.", profile: "A" },
-    { letter: "B", text: "Emocionalmente agotado/a — me cuesta desconectarme de lo que viven los demás.", profile: "B" },
-    { letter: "C", text: "Mentalmente pesado/a — tengo muchas cosas abiertas que no pude cerrar.", profile: "C" }
-  ]},
-  { category: "Presencia Ejecutiva", text: "Vas a presentar una propuesta ante la alta dirección. ¿Qué es lo que más te preocupa?", options: [
-    { letter: "A", text: "Que no vean el potencial de lo que estoy proponiendo.", profile: "A" },
-    { letter: "B", text: "No conectar bien con las personas que están en la sala.", profile: "B" },
-    { letter: "C", text: "Que me hagan preguntas para las que no tengo todos los datos.", profile: "C" }
-  ]},
-  { category: "Gestión de Equipo", text: "Un colaborador clave está desmotivado y su rendimiento bajó. ¿Qué haces primero?", options: [
-    { letter: "A", text: "Busco cómo reasignarle proyectos más retadores que lo reactiven.", profile: "A" },
-    { letter: "B", text: "Me siento con él o ella a entender qué está pasando a nivel personal.", profile: "B" },
-    { letter: "C", text: "Reviso métricas y busco patrones antes de tener la conversación.", profile: "C" }
-  ]},
-  { category: "Foco y Claridad", text: "Tienes 5 prioridades urgentes y recursos para atender solo 2. ¿Cómo decides?", options: [
-    { letter: "A", text: "Elijo las que generan más impacto transformador, aunque sean las más difíciles.", profile: "A" },
-    { letter: "B", text: "Consulto al equipo — la decisión tiene que considerar a quienes la van a ejecutar.", profile: "B" },
-    { letter: "C", text: "Las evalúo contra los objetivos estratégicos y decido con criterio.", profile: "C" }
-  ]},
-  { category: "Tecnología y Cambio", text: "Cuando escuchas que tu empresa va a adoptar una nueva herramienta tecnológica, ¿cuál es tu primera reacción?", options: [
-    { letter: "A", text: "Quiero ser de los primeros en probarla — si puede acelerar resultados, me interesa.", profile: "A" },
-    { letter: "B", text: "Me pregunto cómo va a afectar a las personas del equipo antes de entusiasmarme.", profile: "B" },
-    { letter: "C", text: "Necesito entender bien cómo funciona y qué riesgos tiene antes de adoptarla.", profile: "C" }
-  ]},
-  { category: "IA — Uso Real", text: "Siendo honesto/a: ¿cuál describe mejor tu relación actual con la inteligencia artificial?", options: [
-    { letter: "A", text: "Ya la uso en mi trabajo — experimento, aprendo y busco cómo aplicarla más.", profile: "A" },
-    { letter: "B", text: "La he explorado algo, pero me preocupa que deshumanice procesos que deberían ser personales.", profile: "B" },
-    { letter: "C", text: "Todavía no la uso activamente — prefiero entender bien las implicaciones antes de adoptarla.", profile: "C" }
-  ]},
-  { category: "IA — Impacto en Personas", text: "Tu mayor preocupación sobre la IA en el liderazgo es:", options: [
-    { letter: "A", text: "Que los líderes que no la adopten queden obsoletos rápidamente.", profile: "A" },
-    { letter: "B", text: "Que reemplace conversaciones humanas que son irreemplazables.", profile: "B" },
-    { letter: "C", text: "Que se tomen decisiones sobre personas con datos incompletos o sesgados.", profile: "C" }
-  ]},
-  { category: "Comunicación e Influencia", text: "Tienes que persuadir a un directivo que se resiste a un cambio necesario. ¿Cómo lo abordas?", options: [
-    { letter: "A", text: "Le muestro casos de éxito y le describo el escenario futuro con entusiasmo.", profile: "A" },
-    { letter: "B", text: "Busco entender su resistencia primero — desde ahí construyo el puente.", profile: "B" },
-    { letter: "C", text: "Preparo un análisis de riesgo-beneficio que sea difícil de refutar.", profile: "C" }
-  ]},
-  { category: "Manejo de Conflicto", text: "Dos personas de tu equipo tienen un conflicto que ya afecta al grupo. ¿Qué haces?", options: [
-    { letter: "A", text: "Los reúno rápido y los encauso hacia un objetivo común que los supere.", profile: "A" },
-    { letter: "B", text: "Los escucho por separado primero, con calma, antes de cualquier acción.", profile: "B" },
-    { letter: "C", text: "Establezco un proceso claro para resolver el conflicto con reglas definidas.", profile: "C" }
-  ]},
-  { category: "Autoconocimiento", text: "¿Cuál de estas frases te describe mejor como líder?", options: [
-    { letter: "A", text: "Me energiza el cambio — me incomoda la parálisis.", profile: "A" },
-    { letter: "B", text: "Lo que más me importa es cómo se sienten las personas a mi alrededor.", profile: "B" },
-    { letter: "C", text: "Confío en los sistemas y en los datos más que en la intuición.", profile: "C" }
-  ]}
+  {
+    category: "Situaciones reales",
+    text: "Tu equipo está en medio de un proyecto tenso. Nadie dice lo que realmente piensa en las reuniones, pero se nota que algo está mal. ¿Qué haces?",
+    options: [
+      { letter: "A", text: "Busco el momento y el espacio para que la persona que más está cargando pueda hablar con honestidad.", profile: "A" },
+      { letter: "B", text: "Intento leer qué está pasando detrás del silencio y propongo una dinámica que cambie la conversación.", profile: "B" },
+      { letter: "C", text: "Planteo directamente que hay algo que no estamos diciendo y propongo resolverlo ya.", profile: "C" }
+    ]
+  },
+  {
+    category: "Toma de decisiones",
+    text: "Tienes que tomar una decisión importante con información incompleta y poco tiempo. ¿Cómo te movés?",
+    options: [
+      { letter: "A", text: "Consulto con las personas más afectadas — su perspectiva me ayuda a decidir mejor.", profile: "A" },
+      { letter: "B", text: "Identifico los supuestos clave, evalúo riesgos y propongo una dirección provisional clara.", profile: "B" },
+      { letter: "C", text: "Decido con lo que tengo y ajusto en el camino — la parálisis cuesta más que el error.", profile: "C" }
+    ]
+  },
+  {
+    category: "Impacto en el equipo",
+    text: "¿Cuál de estas frases describe mejor lo que tu equipo diría de trabajar contigo?",
+    options: [
+      { letter: "A", text: "\"Contigo me siento seguro/a de decir lo que pienso, aunque sea incómodo.\"", profile: "A" },
+      { letter: "B", text: "\"Cuando todo es caos, tú apareces con claridad. No sé cómo lo haces.\"", profile: "B" },
+      { letter: "C", text: "\"Después de trabajar contigo me exijo más — sin darme cuenta subí mi propio estándar.\"", profile: "C" }
+    ]
+  },
+  {
+    category: "Liderazgo bajo presión",
+    text: "Un proyecto importante está en riesgo. El equipo está agotado y desmotivado. ¿Cuál es tu primer movimiento?",
+    options: [
+      { letter: "A", text: "Escucho primero. Necesito entender cómo está cada persona antes de proponer cualquier cosa.", profile: "A" },
+      { letter: "B", text: "Busco reconectar al equipo con el propósito — ¿por qué importa lo que estamos haciendo?", profile: "B" },
+      { letter: "C", text: "Replanteo el plan con lo que hay. Priorizo, elimino lo que no es esencial y genero momentum.", profile: "C" }
+    ]
+  },
+  {
+    category: "Influencia sin autoridad",
+    text: "Necesitas que alguien fuera de tu equipo colabore en algo que no es su prioridad. No tienes autoridad sobre esa persona. ¿Cómo lo abordás?",
+    options: [
+      { letter: "A", text: "Invierto tiempo en construir la relación antes de pedir — las personas ayudan a quienes conocen.", profile: "A" },
+      { letter: "B", text: "Le muestro cómo esto también le conviene — encuentro el ángulo donde nuestros intereses se alinean.", profile: "B" },
+      { letter: "C", text: "Soy directo/a sobre lo que necesito y propongo algo concreto que sea fácil de decir que sí.", profile: "C" }
+    ]
+  },
+  {
+    category: "Visión del liderazgo",
+    text: "Pensando en el impacto que querés dejar como líder, ¿qué te importa más?",
+    options: [
+      { letter: "A", text: "Que las personas que trabajaron conmigo sientan que las vi, las escuché y las hice sentir parte de algo.", profile: "A" },
+      { letter: "B", text: "Que mi equipo sepa cómo pensar y decidir incluso cuando yo no estoy — haberles dejado un marco.", profile: "B" },
+      { letter: "C", text: "Haber elevado el estándar de lo que el equipo cree posible — que se exijan más porque trabajaron conmigo.", profile: "C" }
+    ]
+  },
+  {
+    category: "Autoconocimiento",
+    text: "Siendo honesto/a: ¿cuál de estas situaciones te cuesta más?",
+    options: [
+      { letter: "A", text: "Poner límites cuando alguien me necesita — a veces absorbo demasiado de lo que siente el equipo.", profile: "A" },
+      { letter: "B", text: "Comunicar la dirección de forma simple cuando para mí está todo conectado y tiene muchas capas.", profile: "B" },
+      { letter: "C", text: "Desacelerar lo suficiente como para que el equipo procese antes de seguir avanzando.", profile: "C" }
+    ]
+  }
 ];
 
 const profiles = {
   A: {
-    icon: "🚀", tag: "El Líder Pionero", tagClass: "tag-pionero", dividerClass: "divider-pionero", blockClass: "block-pionero",
-    tagline: '"Ves el cambio antes que los demás — y ya estás moviéndote."',
-    desc1: "Eres el tipo de líder que no espera que las cosas pasen — las haces pasar. Cuando hay incertidumbre, tu mente ya está mapeando posibilidades. Cuando hay resistencia, tú ya estás dos pasos adelante buscando cómo superar el obstáculo.",
-    desc2: "Tu energía es contagiosa y tu visión inspira. En un mundo donde la IA está redefiniendo cómo trabajamos, líderes como tú son los que marcan la diferencia: no porque usen la tecnología, sino porque saben para qué usarla.",
-    superpower: { title: "✦ Tu superpoder", text: "Conviertes la ambigüedad en dirección. Donde otros ven caos, tú ves oportunidad. Tienes una capacidad natural para motivar a tu equipo hacia algo nuevo, aunque ese algo todavía no esté del todo definido." },
-    challenge: { title: "⚡ Tu desafío más honesto", text: "La velocidad que es tu fortaleza puede también ser tu punto ciego. A veces el equipo necesita que desaceleres un momento — no para frenarlos, sino para que entiendan hacia dónde van antes de correr. Tu crecimiento está en liderar sin dejar a nadie atrás." },
-    ctaTitle: "Para líderes Pioneros como tú", ctaText: "Tenemos programas que te ayudan a comunicar tu visión de forma que conecte con distintos tipos de personas y a gestionar el impacto humano del cambio que lideras."
+    icon: "⚡",
+    tag: "El Líder Conector",
+    tagClass: "tag-conector",
+    dividerClass: "divider-conector",
+    blockClass: "block-conector",
+    fillClass: "fill-conector",
+    tagline: '"Tu mayor activo no es tu carisma — es lo que pasa cuando estás en la sala."',
+    desc1: "Lo que distingue a líderes como vos no es que sean simpáticos o empáticos en general. Es algo mucho más específico y más raro: cuando estás presente, las personas hablan con más honestidad, se arriesgan más, y toman mejores decisiones. Eso no es personalidad — es una competencia de liderazgo crítica que la mayoría nunca desarrolla.",
+    desc2: "En un contexto donde la IA puede procesar datos pero no puede crear confianza genuina, tu capacidad de generar seguridad psicológica es una ventaja que ninguna herramienta puede replicar.",
+    superpower: {
+      title: "✦ Tu superpoder",
+      text: "Generás seguridad psicológica sin que nadie lo haya pedido. Haces que las personas hablen cuando normalmente se callan, que fallen hacia adelante en lugar de esconder los errores, y que traigan sus mejores ideas porque saben que van a ser escuchadas."
+    },
+    challenge: {
+      title: "◈ Lo que podés seguir desarrollando",
+      text: "Tu capacidad de absorber lo que siente el equipo es una fortaleza — pero también tiene un costo en tu propia energía. El crecimiento está en aprender a cuidar el clima sin cargarlo todo vos. Y en convertir esa confianza en dirección concreta: la seguridad sin rumbo se convierte en confort."
+    },
+    fact: {
+      text: "Según BCG, las empresas que desarrollan liderazgo generativo — especialmente la dimensión de Heart (corazón) — tienen tasas de éxito en transformación tres veces más altas que sus competidores. Las cuatro cualidades que los empleados más valoran en sus líderes tienen que ver con esta dimensión.",
+      source: "BCG · Generative Leadership (2022)"
+    },
+    ctaTitle: "Para líderes Conectores como vos",
+    ctaText: "Tenemos programas que ayudan a convertir tu fortaleza relacional en impacto estratégico — sin perder lo que te hace único como líder."
   },
   B: {
-    icon: "🤝", tag: "El Líder Humano", tagClass: "tag-humano", dividerClass: "divider-humano", blockClass: "block-humano",
-    tagline: '"Sabes que sin conexión real, ninguna estrategia funciona."',
-    desc1: "Tu liderazgo tiene algo que ninguna herramienta tecnológica puede replicar: la capacidad de hacer que las personas se sientan vistas, escuchadas y valoradas. Eso no es un detalle — es exactamente lo que construye equipos que se quedan, que confían y que dan lo mejor de sí mismos.",
-    desc2: "En la era de la IA, tu perfil es más valioso que nunca. Porque mientras las máquinas automatizan procesos, tú dominas lo que no se puede automatizar: la inteligencia emocional, la escucha real y la habilidad de leer lo que hay detrás de las palabras.",
-    superpower: { title: "✦ Tu superpoder", text: "Tienes una antena fina para detectar cómo está el equipo antes de que nadie lo diga en voz alta. Eso te permite anticiparte, intervenir a tiempo y crear un clima donde la gente rinde porque quiere — no porque tiene que." },
-    challenge: { title: "⚡ Tu desafío más honesto", text: "Tu empatía a veces te pesa. Cargas con lo que sienten los demás, y eso tiene un costo en tu propia energía. Tu crecimiento está en aprender que cuidarte no es abandonar a tu equipo — es la condición para poder seguir liderándolo." },
-    ctaTitle: "Para líderes Humanos como tú", ctaText: "Tenemos programas que equilibran habilidades humanas con herramientas de la era digital — para que lideres con toda tu fortaleza sin desgastarte en el camino."
+    icon: "🧭",
+    tag: "El Líder Traductor",
+    tagClass: "tag-traductor",
+    dividerClass: "divider-traductor",
+    blockClass: "block-traductor",
+    fillClass: "fill-traductor",
+    tagline: '"Donde otros ven caos, vos ves un problema que tiene solución."',
+    desc1: "Tu competencia más valiosa no es que seas estratégico en el sentido clásico — es algo más preciso y más escaso: podés tomar información incompleta, contexto caótico y presión real, y convertirlo en un siguiente paso claro para tu equipo. Eso es lo que el research llama toma de decisiones en ambigüedad, y es la habilidad más demandada y menos desarrollada en líderes hoy.",
+    desc2: "Mientras la mayoría de líderes se paraliza esperando tener todos los datos, vos ya estás identificando el patrón y proponiendo una dirección. Tu equipo lo sabe — y por eso confía en vos cuando el panorama no está claro.",
+    superpower: {
+      title: "✦ Tu superpoder",
+      text: "Convertís ambigüedad en claridad. No necesitás tener todo resuelto para dar dirección — podés trabajar con lo que hay, nombrar lo incierto sin paralizarte, y mantener al equipo orientado cuando nadie más sabe hacia dónde ir."
+    },
+    challenge: {
+      title: "◈ Lo que podés seguir desarrollando",
+      text: "A veces llegás solo/a a la respuesta — y eso te hace perder el buy-in del equipo. Tu crecimiento está en comunicar el proceso de pensamiento, no solo la conclusión. Cuando las personas entienden cómo pensás, siguen la dirección porque la comprenden — no solo porque confían en vos."
+    },
+    fact: {
+      text: "BCG encontró que las organizaciones donde los líderes combinan las tres dimensiones — Head (visión), Heart (personas) y Hands (ejecución) — logran mejora de desempeño sostenida en el 96% de los casos, comparado con solo el 33% en quienes las desarrollan parcialmente.",
+      source: "BCG · Generative Leadership (2022)"
+    },
+    ctaTitle: "Para líderes Traductores como vos",
+    ctaText: "Tenemos programas que ayudan a comunicar tu visión de forma que conecte con distintos perfiles y a construir equipos que puedan decidir incluso cuando vos no estás."
   },
   C: {
-    icon: "🏛️", tag: "El Líder Estratégico", tagClass: "tag-estrategico", dividerClass: "divider-estrategico", blockClass: "block-estrategico",
-    tagline: '"Mientras otros improvisan, tú construyes sobre bases que duran."',
-    desc1: "Tu liderazgo tiene algo escaso en entornos de cambio constante: criterio. Sabes que los resultados sostenibles no vienen del entusiasmo pasajero — vienen de procesos bien pensados, decisiones fundamentadas y estructuras que funcionan cuando el caos llega.",
-    desc2: "No eres el que reacciona primero. Eres el que responde mejor. Y esa diferencia se nota cuando los proyectos que lideras se sostienen en el tiempo mientras otros colapsan.",
-    superpower: { title: "✦ Tu superpoder", text: "Tienes la capacidad de ver el sistema completo: los riesgos, las dependencias, las consecuencias de segunda y tercera vuelta. Eso te convierte en un ancla de confianza para tu equipo y en un interlocutor valioso para la alta dirección." },
-    challenge: { title: "⚡ Tu desafío más honesto", text: "La necesidad de tener todo claro antes de actuar puede paralizarte — o hacer que tu equipo perciba distancia cuando lo que necesitan es presencia. Tu crecimiento está en moverte con algo de incertidumbre sin perder la solidez que te caracteriza." },
-    ctaTitle: "Para líderes Estratégicos como tú", ctaText: "Tenemos programas que combinan gestión estratégica con adaptación inteligente al cambio — para que lideres con agilidad sin perder tu sello."
+    icon: "🔥",
+    tag: "El Líder Activador",
+    tagClass: "tag-activador",
+    dividerClass: "divider-activador",
+    blockClass: "block-activador",
+    fillClass: "fill-activador",
+    tagline: '"No solo hacés que las cosas pasen — hacés que las personas se exijan más."',
+    desc1: "Lo que te hace distinto/a no es que seas ejecutor/a o que te guste que los resultados lleguen. Es un efecto específico que tenés en los equipos: después de trabajar con vos, las personas se exigen más a sí mismas. No porque las hayas presionado — sino porque elevaste el estándar de lo que creen posible.",
+    desc2: "Eso es lo que BCG llama la dimensión Hands del liderazgo generativo — y va mucho más allá de la ejecución operativa. Es la capacidad de generar momentum donde hay inercia, de convertir metas ordinarias en compromisos reales, y de crear equipos que saben cómo ganar.",
+    superpower: {
+      title: "✦ Tu superpoder",
+      text: "Contagiás estándar. No porque impongas — sino porque tu nivel de exigencia y tu forma de moverse genera que los demás quieran estar a la altura. Eso convierte equipos promedio en equipos que se sorprenden a sí mismos."
+    },
+    challenge: {
+      title: "◈ Lo que podés seguir desarrollando",
+      text: "Tu velocidad y tu nivel de exigencia son fortalezas — pero a veces el equipo necesita que desaceleres lo suficiente para que procese, descanse y entienda hacia dónde va antes de seguir corriendo. Tu crecimiento está en construir sistemas que sostengan el ritmo cuando vos no estás, y en soltar el control suficiente para que otros lideren."
+    },
+    fact: {
+      text: "Según BCG, el 72% de empleados ya usa IA regularmente — pero la brecha entre líderes y equipos operativos se está ampliando. Los líderes que más impacto tienen en cerrar esa brecha son los que elevan el estándar de sus equipos desde adentro, no los que solo adoptan herramientas.",
+      source: "BCG · AI at Work Survey (2025)"
+    },
+    ctaTitle: "Para líderes Activadores como vos",
+    ctaText: "Tenemos programas que ayudan a convertir tu energía de ejecución en desarrollo genuino de equipo — para que el estándar se sostenga incluso cuando vos no estás mirando."
   }
 };
 
 let current = 0;
-let answers = new Array(10).fill(null);
+let answers = new Array(questions.length).fill(null);
 
 function buildQuestions() {
   const container = document.getElementById('questions-container');
@@ -446,12 +604,13 @@ function selectOption(qIdx, optIdx, profile) {
 }
 
 function updateProgress() {
-  const pct = ((current + 1) / questions.length) * 100;
+  const total = questions.length;
+  const pct = ((current + 1) / total) * 100;
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = 'Pregunta ' + (current+1) + ' de ' + questions.length;
+  document.getElementById('progress-text').textContent = 'Pregunta ' + (current+1) + ' de ' + total;
   document.getElementById('btn-back').style.visibility = current > 0 ? 'visible' : 'hidden';
   const btn = document.getElementById('btn-next');
-  btn.textContent = current === questions.length - 1 ? 'Ver mi resultado →' : 'Siguiente →';
+  btn.textContent = current === total - 1 ? 'Ver mi resultado →' : 'Siguiente →';
   btn.classList.toggle('ready', answers[current] !== null);
 }
 
@@ -464,7 +623,7 @@ function nextQuestion() {
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } else {
-    showCapture();
+    showScreen('capture');
   }
 }
 
@@ -496,43 +655,17 @@ function startQuiz() {
   showScreen('quiz');
 }
 
-function showCapture() {
-  showScreen('capture');
-}
-
-async function submitCapture() {
+function submitCapture() {
   var email = document.getElementById('cap-email').value.trim();
   if (!email) {
     document.getElementById('cap-email').focus();
     document.getElementById('cap-email').style.borderColor = 'var(--naranja)';
     return;
   }
-
-  var consent = document.getElementById('cap-consent').checked;
-  var name = document.getElementById('cap-name').value.trim();
-  var btn = document.getElementById('btn-reveal');
-
-  if (consent) {
-    btn.disabled = true;
-    btn.textContent = 'Enviando...';
-    try {
-      await fetch('/.netlify/functions/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, email: email })
-      });
-    } catch (e) {
-      // Silently continue — don't block the user from seeing their result
-    }
-    btn.disabled = false;
-  }
-
   showResult();
 }
 
-function skipCapture() {
-  showResult();
-}
+function skipCapture() { showResult(); }
 
 function showResult() {
   var scores = { A: 0, B: 0, C: 0 };
@@ -552,7 +685,15 @@ function showResult() {
     '<p>' + p.desc1 + '</p>' +
     '<p>' + p.desc2 + '</p>' +
     '<div class="result-block ' + p.blockClass + '"><h4>' + p.superpower.title + '</h4><p>' + p.superpower.text + '</p></div>' +
-    '<div class="result-block ' + p.blockClass + '"><h4>' + p.challenge.title + '</h4><p>' + p.challenge.text + '</p></div>';
+    '<div class="result-block ' + p.blockClass + '"><h4>' + p.challenge.title + '</h4><p>' + p.challenge.text + '</p></div>' +
+    '<div class="fact-box">' +
+      '<div class="fact-box-icon">📊</div>' +
+      '<div class="fact-box-content">' +
+        '<span class="fact-box-label">Lo que dice el research</span>' +
+        '<p class="fact-box-text">' + p.fact.text + '</p>' +
+        '<span class="fact-box-source">— ' + p.fact.source + '</span>' +
+      '</div>' +
+    '</div>';
 
   document.getElementById('cta-title').textContent = p.ctaTitle;
   document.getElementById('cta-text').textContent = p.ctaText;
@@ -563,15 +704,15 @@ function showResult() {
     document.getElementById('bar-a').style.width = (scores.A / total * 100) + '%';
     document.getElementById('bar-b').style.width = (scores.B / total * 100) + '%';
     document.getElementById('bar-c').style.width = (scores.C / total * 100) + '%';
-    document.getElementById('num-a').textContent = scores.A + '/10';
-    document.getElementById('num-b').textContent = scores.B + '/10';
-    document.getElementById('num-c').textContent = scores.C + '/10';
+    document.getElementById('num-a').textContent = scores.A + '/' + total;
+    document.getElementById('num-b').textContent = scores.B + '/' + total;
+    document.getElementById('num-c').textContent = scores.C + '/' + total;
   }, 300);
 }
 
 function restartQuiz() {
   current = 0;
-  answers = new Array(10).fill(null);
+  answers = new Array(questions.length).fill(null);
   document.getElementById('cap-name').value = '';
   document.getElementById('cap-email').value = '';
   document.getElementById('cap-consent').checked = false;
@@ -583,17 +724,16 @@ function restartQuiz() {
   showScreen('quiz');
 }
 
-function shareResult() {
-  var text = '¡Hice el Quiz de Liderazgo de Alfa Consultores y descubrí mi perfil! ¿Cuál es el tuyo?';
+function shareLinkedIn() {
   var url = window.location.href;
+  var text = '¡Hice este quiz de liderazgo de Alfa Consultores y descubrí algo que no sabía de mí mismo/a como líder!';
   window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url) + '&summary=' + encodeURIComponent(text), '_blank');
 }
 
 function copyLink() {
-  navigator.clipboard.writeText(window.location.href).then(function() {
-    alert('¡Link copiado!');
-  });
+  navigator.clipboard.writeText(window.location.href).then(function() { alert('¡Link copiado!'); });
 }
 </script>
+
 </body>
 </html>
