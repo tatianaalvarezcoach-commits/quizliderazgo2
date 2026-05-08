@@ -857,20 +857,6 @@ async function submitCap() {
   showResult();
 }
 
-  // ─── MailerLite integration ───────────────────────────
-  // To connect MailerLite: replace the URL below with your
-  // MailerLite group subscription API endpoint, or use their
-  // embedded form JS. Example:
-  // fetch('https://api.mailerlite.com/api/v2/subscribers',{
-  //   method:'POST', headers:{'X-MailerLite-ApiKey':'YOUR_KEY','Content-Type':'application/json'},
-  //   body: JSON.stringify({email, fields:{name: document.getElementById('cap-name').value}})
-  // });
-  // ─────────────────────────────────────────────────────
-  showResult();
-}
-
-function skipCap() { showResult(); }
-
 /* ─── SCORES ────────────────────────────────────────── */
 function getScores() {
   const scores = {};
