@@ -1,47 +1,25 @@
-exports.handler = async function(event, context) {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  var body = JSON.parse(event.body);
-  var name = body.name;
-  var email = body.email;
+  const { email, name } = JSON.parse(event.body);
 
-  if (!email) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Email requerido' }) };
-  }
+  const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY}`
+    },
+    body: JSON.stringify({
+      email,
+      fields: { name }
+    })
+  });
 
-  var API_KEY = process.env.MAILERLITE_API_KEY;
-  var GROUP_ID = process.env.MAILERLITE_GROUP_ID;
-
-  var payload = {
-    email: email,
-    status: 'active',
-    fields: { name: name || '' },
-    groups: GROUP_ID ? [GROUP_ID] : []
+  const data = await response.json();
+  return {
+    statusCode: 200,
+    body: JSON.stringify(data)
   };
-
-  try {
-    var response = await fetch('https://connect.mailerlite.com/api/subscribers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + API_KEY
-      },
-      body: JSON.stringify(payload)
-    });
-
-    var data = await response.json();
-
-    return {
-      statusCode: response.status,
-      body: JSON.stringify(data)
-    };
-
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message })
-    };
-  }
 };
