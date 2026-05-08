@@ -833,18 +833,16 @@ function startQuiz() {
   showScreen('quiz');
 }
 
-/* ─── CAPTURE ───────────────────────────────────────── *
-  async function submitCap() {
+// ─── CAPTURE ─────────────────────────────────────────
+async function submitCap() {
   const email = document.getElementById('cap-email').value.trim();
   if (!email) {
     document.getElementById('cap-email').style.borderColor = '#F47920';
     document.getElementById('cap-email').focus();
     return;
   }
-
-  const name  = document.getElementById('cap-name').value.trim();
+  const name = document.getElementById('cap-name').value.trim();
   const agreed = document.getElementById('cap-consent').checked;
-
   if (agreed) {
     try {
       await fetch('/.netlify/functions/subscribe', {
@@ -856,10 +854,9 @@ function startQuiz() {
       console.error('MailerLite error:', e);
     }
   }
-
   showResult();
 }
-  }
+
   // ─── MailerLite integration ───────────────────────────
   // To connect MailerLite: replace the URL below with your
   // MailerLite group subscription API endpoint, or use their
