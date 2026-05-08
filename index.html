@@ -1,739 +1,1053 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz de Liderazgo — Alfa Consultores</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Diagnóstico de Salud de Equipo — Alfa Consultores</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --morado: #6B3FA0;
-    --morado-deep: #4A2A75;
-    --morado-light: rgba(107,63,160,0.12);
-    --naranja: #F47920;
-    --naranja-light: rgba(244,121,32,0.15);
-    --azul-marino: #1C2B4A;
-    --crema: #FAF5EE;
-    --gris-texto: rgba(26,20,16,0.65);
-    --border: rgba(107,63,160,0.2);
-    --shadow: 0 4px 40px rgba(107,63,160,0.15);
-    --shadow-btn: 0 4px 16px rgba(107,63,160,0.35);
-    --verde: #2A7A5A;
-    --verde-light: rgba(42,122,90,0.12);
-    --teal: #1A6B7A;
-    --teal-light: rgba(26,107,122,0.12);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; }
-  body { background: var(--crema); color: var(--azul-marino); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-  body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--azul-marino) 33%, var(--morado) 33% 66%, var(--naranja) 66%); z-index: 100; }
-  .geo-bg { position: fixed; pointer-events: none; z-index: 0; }
-  .geo-bg-1 { top: -120px; right: -80px; width: 320px; height: 320px; background: linear-gradient(135deg, var(--naranja) 0%, transparent 60%); clip-path: polygon(50% 0%, 100% 100%, 0% 100%); opacity: 0.07; }
-  .geo-bg-2 { bottom: -100px; left: -60px; width: 280px; height: 280px; background: var(--morado); clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); opacity: 0.06; }
-  .container { max-width: 760px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-  .screen { display: none; animation: fadeIn 0.5s ease; }
-  .screen.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+:root {
+  --purple: #6B3FA0;
+  --purple-deep: #4A2A75;
+  --purple-light: rgba(107,63,160,0.10);
+  --orange: #F47920;
+  --orange-light: rgba(244,121,32,0.12);
+  --navy: #1C2B4A;
+  --cream: #FAF5EE;
+  --gray: rgba(28,43,74,0.60);
+  --border: rgba(107,63,160,0.18);
+  --white: #FFFFFF;
+  --shadow: 0 6px 40px rgba(107,63,160,0.12);
+  --shadow-btn: 0 4px 20px rgba(107,63,160,0.32);
+
+  --c-critico: #C0392B;
+  --c-critico-bg: rgba(192,57,43,0.08);
+  --c-riesgo: #D35400;
+  --c-riesgo-bg: rgba(211,84,0,0.08);
+  --c-proceso: #B7770D;
+  --c-proceso-bg: rgba(183,119,13,0.09);
+  --c-fortaleza: #1A7A6E;
+  --c-fortaleza-bg: rgba(26,122,110,0.09);
+
+  --d-ld: #6B3FA0;
+  --d-ct: #F47920;
+  --d-ce: #1C2B4A;
+  --d-ra: #1A7A6E;
+  --d-cc: #B7470D;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--navy);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* TOP STRIPE */
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--navy) 33%,var(--purple) 33% 66%,var(--orange) 66%);
+  z-index:200;}
+
+/* GEOMETRIC ACCENTS */
+.geo{position:fixed;pointer-events:none;z-index:0;}
+.geo-tr{top:-80px;right:-60px;width:260px;height:260px;
+  background:linear-gradient(135deg,var(--orange),transparent 55%);
+  clip-path:polygon(50% 0%,100% 100%,0% 100%);opacity:0.06;}
+.geo-bl{bottom:-80px;left:-50px;width:220px;height:220px;
+  background:var(--purple);
+  clip-path:polygon(25% 0%,100% 0%,75% 100%,0% 100%);opacity:0.05;}
+
+/* SCREENS */
+.screen{display:none;animation:fadeUp 0.45s ease both;}
+.screen.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes popIn{from{transform:scale(0.4);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes countUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
 /* NAV */
-.top-nav { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+.nav{padding:22px 24px;display:flex;align-items:center;justify-content:space-between;
+  max-width:800px;margin:0 auto;position:relative;z-index:10;}
+.nav-brand{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
+  color:var(--purple);letter-spacing:0.01em;}
+.nav-sub{font-size:11px;letter-spacing:0.13em;text-transform:uppercase;
+  color:rgba(28,43,74,0.40);font-weight:600;}
 
-/* INTRO */
-#intro { padding: 16px 0 60px; text-align: center; }
-.tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(–naranja); border: 1.5px solid var(–naranja); padding: 6px 16px; border-radius: 40px; margin-bottom: 28px; background: var(–naranja-light); }
-h1 { font-family: ‘Playfair Display’, serif; font-size: clamp(1.85rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 16px; color: var(–azul-marino); }
-h1 em { font-style: italic; color: var(–morado); }
-.subtitle { font-size: 16px; line-height: 1.7; color: var(–gris-texto); max-width: 520px; margin: 0 auto 24px; font-weight: 300; }
-.divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(–morado), var(–naranja)); margin: 0 auto 28px; border-radius: 2px; }
+.wrap{max-width:800px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
 
-/* RESEARCH BADGE */
-.research-badge {
-display: inline-flex; align-items: center; gap: 10px;
-background: white; border: 1.5px solid var(–border);
-border-radius: 40px; padding: 10px 20px;
-margin: 0 auto 28px; box-shadow: 0 2px 12px rgba(107,63,160,0.1);
-}
-.research-badge-logo {
-font-size: 10px; font-weight: 800; letter-spacing: 0.12em;
-text-transform: uppercase; color: white;
-background: var(–morado-deep); padding: 3px 8px; border-radius: 4px;
-}
-.research-badge-text {
-font-size: 12px; color: var(–gris-texto); font-weight: 400;
-}
-.research-badge-text strong { color: var(–azul-marino); font-weight: 600; }
+/* ========== INTRO ========== */
+#intro{padding:8px 0 64px;}
+.intro-eyebrow{display:inline-flex;align-items:center;gap:10px;
+  background:white;border:1.5px solid var(--border);border-radius:40px;
+  padding:9px 20px;margin-bottom:28px;box-shadow:0 2px 12px rgba(107,63,160,0.08);}
+.eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;}
+.eyebrow-text{font-size:12px;font-weight:600;letter-spacing:0.10em;
+  text-transform:uppercase;color:var(--navy);}
 
-.stats { display: flex; justify-content: center; gap: 48px; margin-bottom: 36px; }
-.stat { text-align: center; }
-.stat-num { font-family: ‘Playfair Display’, serif; font-size: 28px; color: var(–morado); display: block; font-weight: 700; }
-.stat-label { font-size: 12px; letter-spacing: 0.08em; color: rgba(28,43,74,0.5); text-transform: uppercase; }
+h1.intro-h1{font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,3.2rem);line-height:1.18;
+  margin-bottom:18px;color:var(--navy);}
+h1.intro-h1 em{font-style:italic;color:var(--purple);}
 
-/* BUTTONS */
-.btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(–morado); color: #FFFFFF; padding: 18px 44px; border: 2px solid var(–morado); border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s; box-shadow: var(–shadow-btn); }
-.btn-primary:hover { background: var(–naranja); border-color: var(–naranja); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(244,121,32,0.4); }
-.btn-primary svg { transition: transform 0.2s; }
-.btn-primary:hover svg { transform: translateX(4px); }
+.intro-lead{font-size:16px;line-height:1.8;color:var(--gray);
+  max-width:540px;font-weight:300;margin-bottom:32px;}
 
-/* QUIZ */
-#quiz { padding: 16px 0 60px; }
-.quiz-header { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(–border); }
-.progress-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-.progress-text { font-size: 12px; letter-spacing: 0.1em; color: rgba(28,43,74,0.55); text-transform: uppercase; font-weight: 600; }
-.progress-bar { width: 180px; height: 5px; background: rgba(107,63,160,0.15); border-radius: 3px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(–morado), var(–naranja)); border-radius: 3px; transition: width 0.4s ease; }
-.question-block { display: none; animation: fadeIn 0.4s ease; }
-.question-block.active { display: block; }
-.q-category { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(–naranja); margin-bottom: 10px; }
-.q-number { font-family: ‘Playfair Display’, serif; font-size: 13px; color: rgba(28,43,74,0.4); margin-bottom: 4px; }
-.q-text { font-family: ‘Playfair Display’, serif; font-size: clamp(1.15rem, 3vw, 1.5rem); line-height: 1.45; margin-bottom: 28px; color: var(–azul-marino); }
-.options { display: flex; flex-direction: column; gap: 12px; }
-.option { display: flex; align-items: flex-start; gap: 16px; padding: 18px 22px; background: white; border: 2px solid #C4A8E0; border-radius: 10px; cursor: pointer; transition: all 0.2s; text-align: left; }
-.option:hover { border-color: var(–morado); box-shadow: 0 4px 20px rgba(107,63,160,0.2); transform: translateX(4px); background: rgba(107,63,160,0.04); }
-.option.selected { border-color: var(–morado); background: rgba(107,63,160,0.1); box-shadow: 0 4px 20px rgba(107,63,160,0.2); }
-.opt-letter { width: 34px; height: 34px; border-radius: 50%; background: #EDE0F7; border: 2px solid #9B6FD0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: var(–morado-deep); flex-shrink: 0; transition: all 0.2s; }
-.option.selected .opt-letter { background: var(–morado); border-color: var(–morado); color: white; box-shadow: 0 2px 8px rgba(107,63,160,0.4); }
-.opt-text { font-size: 15px; line-height: 1.6; color: #2A3A5C; padding-top: 4px; font-weight: 400; }
-.option.selected .opt-text { color: var(–azul-marino); font-weight: 600; }
-.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; }
-.btn-back { background: white; border: 2px solid rgba(107,63,160,0.3); color: var(–morado); padding: 12px 28px; border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.btn-back:hover { border-color: var(–morado); background: rgba(107,63,160,0.06); }
-.btn-next { background: var(–morado); color: #FFFFFF; border: 2px solid var(–morado); padding: 14px 36px; border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; opacity: 0.35; pointer-events: none; }
-.btn-next.ready { opacity: 1; pointer-events: all; box-shadow: var(–shadow-btn); }
-.btn-next.ready:hover { background: var(–naranja); border-color: var(–naranja); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(244,121,32,0.4); }
+.divbar{width:56px;height:3px;
+  background:linear-gradient(90deg,var(--purple),var(--orange));
+  border-radius:2px;margin-bottom:32px;}
 
-/* CAPTURE */
-#capture { padding: 60px 0 80px; }
-.capture-card { background: white; border-radius: 16px; padding: 48px 44px; border: 1px solid var(–border); box-shadow: var(–shadow); max-width: 560px; margin: 0 auto; text-align: center; }
-.capture-icon { font-size: 44px; margin-bottom: 16px; display: block; animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
-.capture-card h2 { font-family: ‘Playfair Display’, serif; font-size: 1.7rem; line-height: 1.3; margin-bottom: 12px; color: var(–azul-marino); }
-.capture-sub { font-size: 15px; line-height: 1.7; color: var(–gris-texto); margin-bottom: 32px; font-weight: 300; }
-.field-group { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; text-align: left; }
-.field-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(–morado); margin-bottom: 6px; display: block; }
-.field-input { width: 100%; padding: 14px 18px; border: 2px solid rgba(107,63,160,0.3); border-radius: 8px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; color: var(–azul-marino); background: #FFFFFF; transition: all 0.2s; outline: none; }
-.field-input:focus { border-color: var(–morado); box-shadow: 0 0 0 3px rgba(107,63,160,0.12); }
-.field-input::placeholder { color: rgba(28,43,74,0.35); }
-.consent-box { background: rgba(107,63,160,0.06); border: 1.5px solid rgba(107,63,160,0.25); border-radius: 10px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; text-align: left; cursor: pointer; }
-.consent-box input[type=“checkbox”] { width: 18px; height: 18px; flex-shrink: 0; accent-color: var(–morado); margin-top: 2px; cursor: pointer; }
-.consent-text { font-size: 13px; line-height: 1.6; color: rgba(28,43,74,0.75); }
-.consent-text strong { color: var(–azul-marino); font-weight: 700; }
-.btn-reveal { width: 100%; background: var(–morado); color: #FFFFFF; border: 2px solid var(–morado); padding: 18px; border-radius: 8px; font-family: ‘DM Sans’, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.25s; box-shadow: var(–shadow-btn); }
-.btn-reveal:hover { background: var(–naranja); border-color: var(–naranja); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(244,121,32,0.4); }
-.skip-link { display: block; margin-top: 14px; font-size: 13px; color: rgba(28,43,74,0.45); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: ‘DM Sans’, sans-serif; transition: color 0.2s; }
-.skip-link:hover { color: var(–morado); }
-.privacy-note { font-size: 11px; color: rgba(28,43,74,0.35); margin-top: 16px; letter-spacing: 0.03em; }
+.intro-stats{display:flex;gap:48px;margin-bottom:36px;}
+.stat{text-align:left;}
+.stat-n{font-family:'Playfair Display',serif;font-size:30px;
+  color:var(--purple);display:block;font-weight:700;line-height:1;}
+.stat-l{font-size:11px;letter-spacing:0.09em;color:rgba(28,43,74,0.45);
+  text-transform:uppercase;display:block;margin-top:4px;}
 
-/* RESULT */
-#result { padding: 32px 0 60px; display: none; }
-#result.active { display: block; }
-.result-header { text-align: center; margin-bottom: 40px; }
-.result-icon { font-size: 52px; margin-bottom: 14px; display: block; animation: pop 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
-.result-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 7px 20px; border-radius: 40px; margin-bottom: 18px; }
-.result-name { font-family: ‘Playfair Display’, serif; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.2; margin-bottom: 10px; color: var(–azul-marino); }
-.result-tagline { font-family: ‘Playfair Display’, serif; font-style: italic; font-size: 17px; color: rgba(28,43,74,0.55); margin-bottom: 28px; }
-.result-divider { width: 48px; height: 3px; margin: 0 auto; border-radius: 2px; }
+.intro-proof{display:flex;align-items:flex-start;gap:14px;
+  background:var(--purple-light);border:1.5px solid var(--border);
+  border-radius:12px;padding:20px 24px;margin-bottom:36px;max-width:580px;}
+.proof-icon{font-size:26px;flex-shrink:0;margin-top:2px;}
+.proof-text{font-size:14px;line-height:1.7;color:rgba(28,43,74,0.75);}
+.proof-text strong{color:var(--navy);font-weight:700;}
 
-.result-body { background: white; border-radius: 12px; padding: 36px 40px; margin-bottom: 24px; border: 1px solid var(–border); box-shadow: var(–shadow); }
-.result-body p { font-size: 16px; line-height: 1.8; color: rgba(28,43,74,0.75); margin-bottom: 20px; }
-.result-body p:last-child { margin-bottom: 0; }
-.result-block { padding: 22px; border-radius: 10px; margin-bottom: 14px; }
-.result-block:last-child { margin-bottom: 0; }
-.result-block h4 { font-family: ‘Playfair Display’, serif; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(–azul-marino); }
-.result-block p { font-size: 15px !important; line-height: 1.7 !important; margin-bottom: 0 !important; }
+.btn-start{display:inline-flex;align-items:center;gap:12px;
+  background:#6B3FA0;color:#FFFFFF;
+  padding:18px 48px;border:2px solid #6B3FA0;border-radius:6px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;
+  letter-spacing:0.04em;cursor:pointer;transition:all 0.25s;
+  box-shadow:0 4px 20px rgba(107,63,160,0.32);}
+.btn-start:hover{background:#F47920;border-color:#F47920;
+  transform:translateY(-2px);box-shadow:0 8px 32px rgba(244,121,32,0.38);}
+.btn-start svg{transition:transform 0.2s;}
+.btn-start:hover svg{transform:translateX(4px);}
 
-/* RESEARCH FACT BOX */
-.fact-box {
-background: var(–morado-light);
-border: 1.5px solid var(–border);
-border-radius: 10px;
-padding: 20px 24px;
-margin-bottom: 14px;
-display: flex;
-gap: 14px;
-align-items: flex-start;
-}
-.fact-box-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
-.fact-box-content {}
-.fact-box-label {
-font-size: 10px; font-weight: 800; letter-spacing: 0.18em;
-text-transform: uppercase; color: var(–morado);
-margin-bottom: 6px; display: block;
-}
-.fact-box-text {
-font-size: 14px !important; line-height: 1.7 !important;
-color: rgba(28,43,74,0.8) !important; margin-bottom: 0 !important;
-font-style: italic;
-}
-.fact-box-source {
-font-size: 11px; color: rgba(28,43,74,0.45);
-margin-top: 6px; display: block; font-style: normal;
-font-weight: 600; letter-spacing: 0.05em;
-}
+/* ========== QUIZ ========== */
+#quiz{padding:12px 0 64px;}
+.quiz-top{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:40px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.dim-badge{display:flex;align-items:center;gap:8px;}
+.dim-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dim-label{font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;}
+.prog-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:7px;}
+.prog-txt{font-size:11px;letter-spacing:0.10em;text-transform:uppercase;
+  color:rgba(28,43,74,0.50);font-weight:600;}
+.prog-bar{width:200px;height:5px;background:rgba(107,63,160,0.12);
+  border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--orange));
+  border-radius:3px;transition:width 0.4s ease;}
 
-.score-bar-section { background: white; border-radius: 12px; padding: 28px 40px; margin-bottom: 24px; border: 1px solid var(–border); box-shadow: var(–shadow); }
-.score-bar-section h3 { font-family: ‘Playfair Display’, serif; font-size: 17px; margin-bottom: 20px; color: var(–azul-marino); }
-.score-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
-.score-label { font-size: 13px; font-weight: 600; width: 130px; flex-shrink: 0; color: var(–azul-marino); }
-.score-track { flex: 1; height: 8px; background: rgba(107,63,160,0.1); border-radius: 4px; overflow: hidden; }
-.score-fill { height: 100%; border-radius: 4px; transition: width 1s ease 0.3s; width: 0; }
-.score-num { font-size: 13px; font-weight: 700; width: 32px; text-align: right; color: var(–azul-marino); }
+.qblock{display:none;animation:fadeUp 0.35s ease;}
+.qblock.active{display:block;}
+.q-num{font-family:'Playfair Display',serif;font-size:13px;
+  color:rgba(28,43,74,0.38);margin-bottom:6px;}
+.q-text{font-family:'Playfair Display',serif;
+  font-size:clamp(1.1rem,2.8vw,1.45rem);line-height:1.5;
+  color:var(--navy);margin-bottom:28px;max-width:640px;}
+.options{display:flex;flex-direction:column;gap:11px;}
+.opt{display:flex;align-items:flex-start;gap:16px;padding:17px 20px;
+  background:white;border:2px solid rgba(107,63,160,0.22);
+  border-radius:10px;cursor:pointer;transition:all 0.2s;text-align:left;}
+.opt:hover{border-color:var(--purple);transform:translateX(4px);
+  box-shadow:0 4px 18px rgba(107,63,160,0.18);}
+.opt.selected{border-color:var(--purple);background:var(--purple-light);
+  box-shadow:0 4px 18px rgba(107,63,160,0.18);}
+.opt-ltr{width:32px;height:32px;border-radius:50%;
+  background:#EDE0F7;border:2px solid #9B6FD0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:var(--purple-deep);
+  flex-shrink:0;transition:all 0.2s;margin-top:1px;}
+.opt.selected .opt-ltr{background:var(--purple);border-color:var(--purple);
+  color:white;box-shadow:0 2px 8px rgba(107,63,160,0.38);}
+.opt-txt{font-size:14px;line-height:1.65;color:#2A3A5C;font-weight:400;}
+.opt.selected .opt-txt{color:var(--navy);font-weight:600;}
 
-.cta-box { background: linear-gradient(135deg, var(–morado-deep) 0%, var(–morado) 60%, var(–azul-marino) 100%); color: white; border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 24px; position: relative; overflow: hidden; }
-.cta-box::before { content: ‘’; position: absolute; top: -40px; right: -40px; width: 140px; height: 140px; background: var(–naranja); clip-path: polygon(50% 0%, 100% 100%, 0% 100%); opacity: 0.2; }
-.cta-box h3 { font-family: ‘Playfair Display’, serif; font-size: 21px; margin-bottom: 10px; position: relative; z-index: 1; color: #FFFFFF; }
-.cta-box p { font-size: 15px; line-height: 1.7; opacity: 0.85; margin-bottom: 24px; max-width: 460px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; color: #FFFFFF; }
-.btn-cta { display: inline-flex; align-items: center; gap: 8px; background: var(–naranja); color: #FFFFFF; padding: 16px 40px; border: 2px solid var(–naranja); border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; text-decoration: none; position: relative; z-index: 1; box-shadow: 0 4px 16px rgba(244,121,32,0.4); }
-.btn-cta:hover { background: white; color: var(–morado); border-color: white; transform: translateY(-2px); }
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:30px;}
+.btn-back{background:#FFFFFF;border:2px solid rgba(107,63,160,0.28);
+  color:#6B3FA0;padding:12px 26px;border-radius:6px;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;}
+.btn-back:hover{border-color:#6B3FA0;background:rgba(107,63,160,0.08);}
+.btn-next{background:#6B3FA0;color:#FFFFFF;border:2px solid #6B3FA0;
+  padding:14px 36px;border-radius:6px;font-family:'DM Sans',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;transition:all 0.25s;
+  opacity:0.35;pointer-events:none;}
+.btn-next.on{opacity:1;pointer-events:all;box-shadow:0 4px 20px rgba(107,63,160,0.32);}
+.btn-next.on:hover{background:#F47920;border-color:#F47920;
+  transform:translateY(-2px);box-shadow:0 6px 24px rgba(244,121,32,0.38);}
 
-/* RESEARCH LINK AT BOTTOM */
-.research-link-box {
-background: white; border: 1.5px solid var(–border);
-border-radius: 12px; padding: 24px 32px;
-margin-bottom: 24px; text-align: center;
-box-shadow: 0 2px 16px rgba(107,63,160,0.08);
-}
-.research-link-box p {
-font-size: 13px; color: var(–gris-texto);
-line-height: 1.7; margin-bottom: 14px;
-}
-.research-link-box p strong { color: var(–azul-marino); }
-.btn-research {
-display: inline-flex; align-items: center; gap: 8px;
-background: white; border: 2px solid var(–morado);
-color: var(–morado); padding: 12px 28px; border-radius: 6px;
-font-family: ‘DM Sans’, sans-serif; font-size: 13px; font-weight: 700;
-cursor: pointer; transition: all 0.2s; text-decoration: none;
-letter-spacing: 0.03em;
-}
-.btn-research:hover { background: var(–morado); color: white; transform: translateY(-2px); }
+/* ========== CAPTURE ========== */
+#capture{padding:56px 0 80px;}
+.cap-card{background:white;border-radius:16px;padding:48px 44px;
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  max-width:560px;margin:0 auto;text-align:center;}
+.cap-icon{font-size:46px;display:block;margin-bottom:16px;
+  animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;}
+.cap-h{font-family:'Playfair Display',serif;font-size:1.75rem;
+  line-height:1.3;margin-bottom:12px;color:var(--navy);}
+.cap-sub{font-size:15px;line-height:1.75;color:var(--gray);
+  margin-bottom:32px;font-weight:300;}
+.fgroup{display:flex;flex-direction:column;gap:14px;margin-bottom:20px;text-align:left;}
+.flabel{font-size:11px;font-weight:700;letter-spacing:0.11em;
+  text-transform:uppercase;color:var(--purple);margin-bottom:6px;display:block;}
+.finput,.fselect{width:100%;padding:13px 17px;
+  border:2px solid rgba(107,63,160,0.28);border-radius:8px;
+  font-family:'DM Sans',sans-serif;font-size:15px;color:var(--navy);
+  background:white;transition:all 0.2s;outline:none;appearance:none;}
+.finput:focus,.fselect:focus{border-color:var(--purple);
+  box-shadow:0 0 0 3px rgba(107,63,160,0.10);}
+.finput::placeholder{color:rgba(28,43,74,0.33);}
 
-.share-row { text-align: center; margin-bottom: 8px; }
-.share-row p { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(28,43,74,0.45); margin-bottom: 14px; font-weight: 600; }
-.btn-share { display: inline-flex; align-items: center; gap: 8px; background: white; border: 2px solid rgba(107,63,160,0.3); color: var(–morado); padding: 12px 24px; border-radius: 6px; font-family: ‘DM Sans’, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin: 0 5px; }
-.btn-share:hover { border-color: var(–morado); background: rgba(107,63,160,0.06); }
-.btn-retry { background: none; border: none; color: rgba(28,43,74,0.4); font-family: ‘DM Sans’, sans-serif; font-size: 13px; cursor: pointer; text-decoration: underline; margin-top: 16px; display: block; text-align: center; }
-.btn-retry:hover { color: var(–morado); }
+.consent{background:var(--purple-light);border:1.5px solid rgba(107,63,160,0.22);
+  border-radius:10px;padding:17px 20px;
+  display:flex;align-items:flex-start;gap:14px;
+  margin-bottom:24px;text-align:left;cursor:pointer;}
+.consent input{width:18px;height:18px;flex-shrink:0;
+  accent-color:var(--purple);margin-top:2px;cursor:pointer;}
+.consent-txt{font-size:13px;line-height:1.65;color:rgba(28,43,74,0.75);}
+.consent-txt strong{color:var(--navy);font-weight:700;}
 
-/* PROFILE COLORS */
-.tag-conector { background: var(–morado-light); color: var(–morado-deep); border: 2px solid rgba(107,63,160,0.35); }
-.tag-traductor { background: var(–naranja-light); color: #C05F10; border: 2px solid rgba(244,121,32,0.4); }
-.tag-activador { background: var(–verde-light); color: var(–verde); border: 2px solid rgba(42,122,90,0.35); }
-.divider-conector { background: linear-gradient(90deg, var(–morado), #9B6FD0); }
-.divider-traductor { background: linear-gradient(90deg, var(–naranja), #F7A558); }
-.divider-activador { background: linear-gradient(90deg, var(–verde), #3DAA7A); }
-.block-conector { background: rgba(107,63,160,0.07); border-left: 3px solid var(–morado); }
-.block-traductor { background: rgba(244,121,32,0.07); border-left: 3px solid var(–naranja); }
-.block-activador { background: rgba(42,122,90,0.07); border-left: 3px solid var(–verde); }
-.fill-conector { background: var(–morado); }
-.fill-traductor { background: var(–naranja); }
-.fill-activador { background: var(–verde); }
+.btn-reveal{width:100%;background:#6B3FA0;color:#FFFFFF;
+  border:2px solid #6B3FA0;padding:18px;border-radius:8px;
+  font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;
+  cursor:pointer;transition:all 0.25s;box-shadow:0 4px 20px rgba(107,63,160,0.32);}
+.btn-reveal:hover{background:#F47920;border-color:#F47920;
+  transform:translateY(-2px);box-shadow:0 8px 32px rgba(244,121,32,0.38);}
+.skip-btn{display:block;margin-top:14px;font-size:13px;
+  color:rgba(28,43,74,0.42);cursor:pointer;text-decoration:underline;
+  background:none;border:none;font-family:'DM Sans',sans-serif;
+  transition:color 0.2s;width:100%;text-align:center;}
+.skip-btn:hover{color:var(--purple);}
+.priv-note{font-size:11px;color:rgba(28,43,74,0.32);margin-top:14px;
+  letter-spacing:0.03em;}
+
+/* ========== RESULT ========== */
+#result{padding:32px 0 64px;display:none;}
+#result.active{display:block;}
+
+/* TIER CARD */
+.tier-card{border-radius:14px;padding:36px 40px;margin-bottom:24px;
+  position:relative;overflow:hidden;}
+.tier-card::before{content:'';position:absolute;top:-50px;right:-50px;
+  width:160px;height:160px;background:rgba(255,255,255,0.1);
+  clip-path:polygon(50% 0%,100% 100%,0% 100%);}
+.tier-card-inner{position:relative;z-index:1;}
+.tier-score-row{display:flex;align-items:flex-end;gap:16px;margin-bottom:8px;}
+.tier-score-big{font-family:'Playfair Display',serif;font-size:64px;
+  font-weight:700;color:white;line-height:1;}
+.tier-score-denom{font-size:22px;color:rgba(255,255,255,0.65);
+  margin-bottom:8px;font-weight:300;}
+.tier-badge{display:inline-block;background:rgba(255,255,255,0.2);
+  color:white;font-size:11px;font-weight:700;letter-spacing:0.15em;
+  text-transform:uppercase;padding:6px 16px;border-radius:40px;
+  margin-bottom:14px;border:1.5px solid rgba(255,255,255,0.35);}
+.tier-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2rem);
+  color:white;margin-bottom:10px;}
+.tier-desc{font-size:15px;line-height:1.75;color:rgba(255,255,255,0.85);
+  max-width:580px;font-weight:300;}
+
+/* RADAR SECTION */
+.radar-section{background:white;border-radius:14px;padding:32px 36px;
+  margin-bottom:24px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.section-h{font-family:'Playfair Display',serif;font-size:18px;
+  color:var(--navy);margin-bottom:24px;}
+.radar-wrap{display:flex;gap:40px;align-items:center;flex-wrap:wrap;}
+.radar-chart{flex-shrink:0;}
+.radar-legend{flex:1;min-width:200px;display:flex;flex-direction:column;gap:14px;}
+.legend-row{display:flex;align-items:center;gap:10px;}
+.legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+.legend-name{font-size:13px;font-weight:600;color:var(--navy);margin-right:auto;}
+.legend-score{font-family:'Playfair Display',serif;font-size:15px;
+  font-weight:700;color:var(--navy);}
+.legend-max{font-size:12px;color:var(--gray);}
+
+/* DIM BARS */
+.dims-section{background:white;border-radius:14px;padding:32px 36px;
+  margin-bottom:24px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.dim-row{margin-bottom:22px;}
+.dim-row:last-child{margin-bottom:0;}
+.dim-top{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:8px;}
+.dim-name{font-size:14px;font-weight:600;color:var(--navy);
+  display:flex;align-items:center;gap:8px;}
+.dim-name-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dim-status{font-size:11px;font-weight:700;letter-spacing:0.10em;
+  text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+.dim-track{height:7px;background:rgba(107,63,160,0.08);
+  border-radius:4px;overflow:hidden;margin-bottom:8px;}
+.dim-fill{height:100%;border-radius:4px;transition:width 0.9s ease 0.2s;width:0;}
+.dim-insight{font-size:13px;line-height:1.65;color:var(--gray);}
+
+/* STATUS COLORS */
+.status-critico{background:var(--c-critico-bg);color:var(--c-critico);}
+.status-riesgo{background:var(--c-riesgo-bg);color:var(--c-riesgo);}
+.status-proceso{background:var(--c-proceso-bg);color:var(--c-proceso);}
+.status-fortaleza{background:var(--c-fortaleza-bg);color:var(--c-fortaleza);}
+
+/* PRIORITIES */
+.priorities-section{background:white;border-radius:14px;padding:32px 36px;
+  margin-bottom:24px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.priority-card{background:var(--cream);border-radius:10px;
+  padding:20px 22px;margin-bottom:14px;
+  border-left:4px solid var(--purple);}
+.priority-card:last-child{margin-bottom:0;}
+.priority-num{font-size:11px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--orange);margin-bottom:6px;}
+.priority-title{font-family:'Playfair Display',serif;font-size:15px;
+  color:var(--navy);margin-bottom:6px;}
+.priority-action{font-size:13px;line-height:1.65;color:var(--gray);}
+.priority-service{display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;font-size:12px;font-weight:600;color:var(--purple);
+  background:var(--purple-light);padding:5px 12px;border-radius:20px;}
+
+/* CTA BOX */
+.cta-box{background:linear-gradient(135deg,var(--purple-deep) 0%,var(--purple) 55%,var(--navy) 100%);
+  border-radius:14px;padding:42px 40px;text-align:center;
+  margin-bottom:24px;position:relative;overflow:hidden;}
+.cta-box::after{content:'';position:absolute;bottom:-40px;left:-40px;
+  width:140px;height:140px;background:var(--orange);
+  clip-path:polygon(50% 0%,100% 100%,0% 100%);opacity:0.15;}
+.cta-box h3{font-family:'Playfair Display',serif;font-size:22px;
+  color:white;margin-bottom:12px;position:relative;z-index:1;}
+.cta-box p{font-size:15px;line-height:1.75;color:rgba(255,255,255,0.83);
+  margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;
+  position:relative;z-index:1;font-weight:300;}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  position:relative;z-index:1;}
+.btn-cta-primary{display:inline-flex;align-items:center;gap:8px;
+  background:var(--orange);color:white;padding:16px 36px;
+  border:2px solid var(--orange);border-radius:6px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all 0.25s;text-decoration:none;
+  box-shadow:0 4px 18px rgba(244,121,32,0.40);}
+.btn-cta-primary:hover{background:white;color:var(--purple);
+  border-color:white;transform:translateY(-2px);}
+.btn-cta-secondary{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.12);color:white;padding:16px 36px;
+  border:2px solid rgba(255,255,255,0.40);border-radius:6px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;
+  cursor:pointer;transition:all 0.25s;text-decoration:none;}
+.btn-cta-secondary:hover{background:rgba(255,255,255,0.22);
+  transform:translateY(-2px);}
+
+/* SHARE */
+.share-wrap{text-align:center;margin-bottom:8px;}
+.share-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(28,43,74,0.40);margin-bottom:14px;font-weight:600;}
+.btn-share{display:inline-flex;align-items:center;gap:8px;background:#FFFFFF;
+  border:2px solid rgba(107,63,160,0.25);color:#6B3FA0;
+  padding:11px 22px;border-radius:6px;font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;
+  margin:0 5px;}
+.btn-share:hover{border-color:#6B3FA0;background:rgba(107,63,160,0.08);}
+.btn-retry{background:none;border:none;color:rgba(28,43,74,0.38);
+  font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;
+  text-decoration:underline;margin-top:16px;display:block;
+  text-align:center;width:100%;}
+.btn-retry:hover{color:#6B3FA0;}
 
 /* FOOTER */
-.brand-footer { text-align: center; padding: 28px 0 10px; position: relative; z-index: 1; }
-.brand-footer-bar { width: 100%; height: 3px; background: linear-gradient(90deg, var(–azul-marino) 33%, var(–morado) 33% 66%, var(–naranja) 66%); margin-bottom: 14px; }
-.brand-footer-text { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(28,43,74,0.35); }
-.brand-footer-text span { color: var(–morado); font-weight: 700; }
+.footer{text-align:center;padding:28px 0 12px;position:relative;z-index:1;}
+.footer-bar{height:3px;background:linear-gradient(90deg,#1C2B4A 33%,#6B3FA0 33% 66%,#F47920 66%);margin-bottom:14px;}
+.footer-txt{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(28,43,74,0.32);}
+.footer-txt span{color:#6B3FA0;font-weight:700;}
 
 /* MOBILE */
-@media (max-width: 600px) {
-.stats { gap: 24px; }
-.result-body, .score-bar-section, .cta-box { padding: 24px 20px; }
-.quiz-header { flex-direction: column; gap: 14px; align-items: flex-start; }
-.progress-wrap { align-items: flex-start; }
-.progress-bar { width: 200px; }
-.capture-card { padding: 32px 20px; }
-.opt-text { font-size: 16px; }
-.q-text { font-size: 1.2rem; }
-.btn-primary { font-size: 16px; padding: 18px 32px; width: 100%; justify-content: center; }
-.btn-next { font-size: 16px; padding: 16px 28px; }
-.btn-back { font-size: 15px; padding: 14px 20px; }
-.btn-reveal { font-size: 16px; padding: 18px; }
-.field-input { font-size: 16px; }
-.score-label { width: 100px; }
-.research-link-box { padding: 20px; }
+@media(max-width:620px){
+  .intro-stats{gap:24px;}
+  .tier-card{padding:28px 22px;}
+  .tier-score-big{font-size:48px;}
+  .radar-section,.dims-section,.priorities-section,.cta-box{padding:24px 20px;}
+  .radar-wrap{flex-direction:column;align-items:flex-start;gap:24px;}
+  .radar-chart{width:100%;display:flex;justify-content:center;}
+  .btn-start{width:100%;justify-content:center;font-size:16px;}
+  .cap-card{padding:32px 20px;}
+  .quiz-top{flex-direction:column;gap:14px;align-items:flex-start;}
+  .prog-wrap{align-items:flex-start;}
+  .prog-bar{width:220px;}
+  .opt-txt{font-size:15px;}
+  .cta-btns{flex-direction:column;align-items:center;}
+  .btn-cta-primary,.btn-cta-secondary{width:100%;justify-content:center;}
 }
 </style>
-
 </head>
 <body>
+<div class="geo geo-tr"></div>
+<div class="geo geo-bl"></div>
 
-<div class="geo-bg geo-bg-1"></div>
-<div class="geo-bg geo-bg-2"></div>
-
-<div class="top-nav">
-  <span style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--morado);letter-spacing:0.02em;">Alfa Consultores</span>
-  <span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(28,43,74,0.45);font-weight:600;">HR Consulting & Training</span>
+<!-- NAV -->
+<div class="nav">
+  <span class="nav-brand">Alfa Consultores</span>
+  <span class="nav-sub">HR Consulting &amp; Training</span>
 </div>
 
-<!-- ══════════════════════════════════════ INTRO -->
-
+<!-- ═══════════════════════ INTRO ═══════════════════════ -->
 <div id="intro" class="screen active">
-  <div class="container">
-    <div style="padding-top:24px;text-align:center;">
-      <div class="tag">Quiz de Liderazgo</div>
-      <h1>Descubre la competencia<br>de liderazgo que <em>ya tienes</em><br>y no estás usando</h1>
-      <p class="subtitle">7 preguntas basadas en el research de Boston Consulting Group que revelan tu ventaja real como líder — incluso si tú mismo no la has visto todavía.</p>
-      <div class="divider"></div>
-
-```
-  <div style="display:flex;justify-content:center;margin-bottom:28px;">
-    <div class="research-badge">
-      <span class="research-badge-logo">BCG</span>
-      <span class="research-badge-text">Basado en <strong>Generative Leadership</strong> · Boston Consulting Group</span>
+<div class="wrap">
+  <div style="padding-top:16px;max-width:660px;">
+    <div class="intro-eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span class="eyebrow-text">Diagnóstico de Salud de Equipo · 2026</span>
     </div>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><span class="stat-num">7</span><span class="stat-label">Preguntas</span></div>
-    <div class="stat"><span class="stat-num">3'</span><span class="stat-label">Duración</span></div>
-    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Perfiles</span></div>
-  </div>
-  <button class="btn-primary" onclick="startQuiz()">
-    Comenzar el quiz
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-  </button>
-</div>
-```
-
-  </div>
-  <div class="brand-footer">
-    <div class="brand-footer-bar"></div>
-    <p class="brand-footer-text">Desarrollado por <span>Alfa Consultores</span></p>
+    <h1 class="intro-h1">¿Cuánto le está costando a tu empresa<br><em>lo que aún no ves</em> en tu equipo?</h1>
+    <p class="intro-lead">10 preguntas basadas en escenarios reales que revelan el estado actual de tu equipo en 5 dimensiones críticas — y te dicen exactamente por dónde empezar.</p>
+    <div class="divbar"></div>
+    <div class="intro-stats">
+      <div class="stat"><span class="stat-n">10</span><span class="stat-l">Preguntas</span></div>
+      <div class="stat"><span class="stat-n">5'</span><span class="stat-l">Duración</span></div>
+      <div class="stat"><span class="stat-n">5</span><span class="stat-l">Dimensiones</span></div>
+    </div>
+    <div class="intro-proof">
+      <div class="proof-icon">📊</div>
+      <p class="proof-text">Este diagnóstico evalúa tu equipo en las <strong>5 dimensiones que más impactan en el rendimiento y la retención</strong>: liderazgo, comunicación, cohesión, claridad de roles y cultura. Al final recibirás un score por área y tus 3 prioridades de acción.</p>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">
+      Comenzar el diagnóstico
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
   </div>
 </div>
+<div class="footer" style="margin-top:60px;">
+  <div class="footer-bar"></div>
+  <p class="footer-txt">Desarrollado por <span>Alfa Consultores</span></p>
+</div>
+</div>
 
-<!-- ══════════════════════════════════════ QUIZ -->
-
+<!-- ═══════════════════════ QUIZ ═══════════════════════ -->
 <div id="quiz" class="screen">
-  <div class="container">
-    <div class="quiz-header">
-      <div class="progress-wrap">
-        <span class="progress-text" id="progress-text">Pregunta 1 de 7</span>
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:14%"></div></div>
-      </div>
+<div class="wrap">
+  <div class="quiz-top">
+    <div class="dim-badge">
+      <div class="dim-dot" id="curr-dim-dot"></div>
+      <span class="dim-label" id="curr-dim-label"></span>
     </div>
-    <div id="questions-container"></div>
-    <div class="nav-row">
-      <button class="btn-back" id="btn-back" onclick="prevQuestion()" style="visibility:hidden">← Anterior</button>
-      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Siguiente →</button>
+    <div class="prog-wrap">
+      <span class="prog-txt" id="prog-txt">Pregunta 1 de 10</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:10%"></div></div>
     </div>
   </div>
+  <div id="qcontainer"></div>
+  <div class="nav-row">
+    <button class="btn-back" id="btn-back" onclick="prevQ()" style="visibility:hidden">← Anterior</button>
+    <button class="btn-next" id="btn-next" onclick="nextQ()">Siguiente →</button>
+  </div>
+</div>
 </div>
 
-<!-- ══════════════════════════════════════ CAPTURE -->
-
+<!-- ═══════════════════════ CAPTURE ═══════════════════════ -->
 <div id="capture" class="screen">
-  <div class="container">
-    <div class="capture-card">
-      <span class="capture-icon">✨</span>
-      <h2>¡Tu resultado está listo!</h2>
-      <p class="capture-sub">Ingresá tu nombre y correo para ver tu perfil completo con tus superpoderes, tu área de crecimiento y el dato del research que te va a sorprender.</p>
-      <div class="field-group">
-        <div>
-          <label class="field-label" for="cap-name">Nombre</label>
-          <input class="field-input" type="text" id="cap-name" placeholder="¿Cómo te llaman?" autocomplete="given-name">
-        </div>
-        <div>
-          <label class="field-label" for="cap-email">Correo electrónico</label>
-          <input class="field-input" type="email" id="cap-email" placeholder="tu@correo.com" autocomplete="email">
-        </div>
-      </div>
-      <label class="consent-box" for="cap-consent">
-        <input type="checkbox" id="cap-consent">
-        <span class="consent-text"><strong>Sí, quiero recibir más contenido.</strong><br>Acepto recibir correos con tips de liderazgo y novedades de los programas de Alfa Consultores. Puedo darme de baja cuando quiera.</span>
-      </label>
-      <button class="btn-reveal" onclick="submitCapture()">Ver mi resultado →</button>
-      <button class="skip-link" onclick="skipCapture()">Prefiero ver el resultado sin registrarme</button>
-      <p class="privacy-note">🔒 Tu información es privada y nunca será compartida.</p>
+<div class="wrap">
+<div class="cap-card">
+  <span class="cap-icon">📋</span>
+  <h2 class="cap-h">Tu diagnóstico está listo</h2>
+  <p class="cap-sub">Ingresa tus datos para ver el score de tu equipo en cada dimensión, tu radar completo y tus 3 prioridades de acción.</p>
+  <div class="fgroup">
+    <div>
+      <label class="flabel" for="cap-name">Nombre</label>
+      <input class="finput" type="text" id="cap-name" placeholder="Tu nombre" autocomplete="given-name">
+    </div>
+    <div>
+      <label class="flabel" for="cap-role">Tu rol</label>
+      <select class="fselect" id="cap-role">
+        <option value="" disabled selected>Selecciona tu cargo</option>
+        <option value="jefe_dpto">Jefe de departamento</option>
+        <option value="jefe_rrhh">Jefe / Gerente de RRHH</option>
+        <option value="gerente_general">Gerente general / Director</option>
+        <option value="otro">Otro rol de liderazgo</option>
+      </select>
+    </div>
+    <div>
+      <label class="flabel" for="cap-email">Correo electrónico</label>
+      <input class="finput" type="email" id="cap-email" placeholder="tu@empresa.com" autocomplete="email">
     </div>
   </div>
+  <label class="consent" for="cap-consent">
+    <input type="checkbox" id="cap-consent">
+    <span class="consent-txt"><strong>Sí, quiero recibir más contenido.</strong><br>Acepto recibir recursos y tips de liderazgo de Alfa Consultores. Puedo darme de baja cuando quiera.</span>
+  </label>
+  <button class="btn-reveal" onclick="submitCap()">Ver mi diagnóstico →</button>
+  <button class="skip-btn" onclick="skipCap()">Prefiero ver el resultado sin registrarme</button>
+  <p class="priv-note">🔒 Tu información es privada y no será compartida con terceros.</p>
+</div>
+</div>
 </div>
 
-<!-- ══════════════════════════════════════ RESULT -->
-
+<!-- ═══════════════════════ RESULT ═══════════════════════ -->
 <div id="result" class="screen">
-  <div class="container">
-    <div class="result-header">
-      <span class="result-icon" id="res-icon"></span>
-      <div class="result-tag" id="res-tag"></div>
-      <h2 class="result-name" id="res-name"></h2>
-      <p class="result-tagline" id="res-tagline"></p>
-      <div class="result-divider" id="res-divider"></div>
+<div class="wrap">
+
+  <!-- TIER CARD -->
+  <div class="tier-card" id="tier-card">
+    <div class="tier-card-inner">
+      <div class="tier-score-row">
+        <span class="tier-score-big" id="tier-score">0</span>
+        <span class="tier-score-denom">/30</span>
+      </div>
+      <div class="tier-badge" id="tier-badge"></div>
+      <h2 class="tier-title" id="tier-title"></h2>
+      <p class="tier-desc" id="tier-desc"></p>
     </div>
-
-```
-<div class="result-body" id="res-body"></div>
-
-<div class="score-bar-section">
-  <h3>Tu perfil completo</h3>
-  <div class="score-row">
-    <span class="score-label">⚡ El Conector</span>
-    <div class="score-track"><div class="score-fill fill-conector" id="bar-a"></div></div>
-    <span class="score-num" id="num-a"></span>
   </div>
-  <div class="score-row">
-    <span class="score-label">🧭 El Traductor</span>
-    <div class="score-track"><div class="score-fill fill-traductor" id="bar-b"></div></div>
-    <span class="score-num" id="num-b"></span>
+  <p style="font-size:12px;color:rgba(28,43,74,0.42);text-align:center;margin-bottom:24px;line-height:1.7;font-style:italic;">
+    Este es un indicador rápido basado en 10 preguntas — no un diagnóstico clínico. Su propósito es ayudarte a identificar señales, no etiquetarte. Los resultados son más útiles como punto de partida para conversación que como verdad definitiva.
+  </p>
+
+  <!-- RADAR -->
+  <div class="radar-section">
+    <h3 class="section-h">Perfil de tu equipo por dimensión</h3>
+    <div class="radar-wrap">
+      <div class="radar-chart">
+        <canvas id="radarCanvas" width="400" height="400" style="width:240px;height:240px;max-width:100%;"></canvas>
+      </div>
+      <div class="radar-legend" id="radar-legend"></div>
+    </div>
   </div>
-  <div class="score-row">
-    <span class="score-label">🔥 El Activador</span>
-    <div class="score-track"><div class="score-fill fill-activador" id="bar-c"></div></div>
-    <span class="score-num" id="num-c"></span>
+
+  <!-- DIMENSION BARS -->
+  <div class="dims-section">
+    <h3 class="section-h">Análisis por dimensión</h3>
+    <div id="dims-list"></div>
+  </div>
+
+  <!-- PRIORITIES -->
+  <div class="priorities-section">
+    <h3 class="section-h">Tus 3 prioridades de acción</h3>
+    <p style="font-size:14px;color:var(--gray);margin-bottom:20px;line-height:1.7;">
+      Basado en tus resultados, estas son las áreas donde una intervención tiene el mayor retorno posible para tu equipo en este momento.
+    </p>
+    <div id="priorities-list"></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>¿Quieres entender mejor lo que encontraste?</h3>
+    <p>Este diagnóstico es un primer mapa — no un juicio definitivo. Si alguna dimensión te generó preguntas o reconociste patrones en tu equipo, vale la pena profundizar.</p>
+    <div class="cta-btns">
+     
+      <a href="https://subscribepage.io/XsRySq" target="_blank" class="btn-cta-primary">
+        Conocer más →
+      </a>
+    </div>
+  </div>
+
+  <div class="share-wrap">
+    <p class="share-label">Compartir este diagnóstico</p>
+    <button class="btn-share" onclick="shareLinkedIn()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </button>
+    <button class="btn-share" onclick="copyLink()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copiar link
+    </button>
+  </div>
+  <button class="btn-retry" onclick="retryQuiz()">Hacer el diagnóstico de nuevo</button>
+
+  <div class="footer" style="margin-top:32px;">
+    <div class="footer-bar"></div>
+    <p class="footer-txt">Diagnóstico desarrollado por <span>Alfa Consultores</span> · HR Consulting &amp; Training</p>
   </div>
 </div>
-
-<div class="cta-box">
-  <h3 id="cta-title"></h3>
-  <p id="cta-text"></p>
-  <a href="https://subscribepage.io/XsRySq" class="btn-cta" target="_blank">Ver los programas →</a>
 </div>
 
-<!-- RESEARCH LINK BOX -->
-<div class="research-link-box">
-  <p>Este quiz está basado en el estudio de <strong>Boston Consulting Group</strong> sobre <em>Generative Leadership</em> — uno de los marcos de liderazgo más influyentes de los últimos años, construido a partir de investigación con más de 725 ejecutivos en organizaciones globales.</p>
-  <a href="https://www.bcg.com/publications/2022/all-about-generative-leadership-and-its-benefits" target="_blank" class="btn-research">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    Leer el research completo → BCG.com
-  </a>
-</div>
-
-<div class="share-row">
-  <p>Compartí tu resultado</p>
-  <button class="btn-share" onclick="shareLinkedIn()">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-    LinkedIn
-  </button>
-  <button class="btn-share" onclick="copyLink()">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-    Copiar link
-  </button>
-</div>
-<button class="btn-retry" onclick="restartQuiz()">Hacer el quiz de nuevo</button>
-
-<div class="brand-footer">
-  <div class="brand-footer-bar"></div>
-  <p class="brand-footer-text">Desarrollado por <span>Alfa Consultores</span> · HR Consulting & Training</p>
-</div>
-```
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════ SCRIPT -->
-
+<!-- ═══════════════════════ SCRIPT ═══════════════════════ -->
 <script>
-const questions = [
+/* ─── DATA ──────────────────────────────────────────── */
+const DIMS = [
+  { id:'LD', name:'Liderazgo y Dirección',   color:'#6B3FA0', light:'rgba(107,63,160,0.15)' },
+  { id:'CT', name:'Comunicación y Confianza', color:'#F47920', light:'rgba(244,121,32,0.15)' },
+  { id:'CE', name:'Cohesión de Equipo',       color:'#1C2B4A', light:'rgba(28,43,74,0.15)'  },
+  { id:'RA', name:'Roles y Accountability',   color:'#1A7A6E', light:'rgba(26,122,110,0.15)' },
+  { id:'CC', name:'Cultura y Compromiso',     color:'#B7470D', light:'rgba(183,71,13,0.15)'  }
+];
+
+const SERVICES = {
+  LD: 'Acelerador de Liderazgo',
+  CT: 'Leadership Bootcamp',
+  CE: 'Team Cohesion Lab',
+  RA: 'Evaluación de Talento',
+  CC: 'Cultura de Servicio (CX)'
+};
+
+const ACTIONS = {
+  LD: 'Diseñar un plan de desarrollo de liderazgo estructurado para cada persona del equipo — con evaluación inicial, metas claras y seguimiento trimestral.',
+  CT: 'Crear condiciones de seguridad psicológica reales: conversaciones honestas facilitadas, cultura de feedback continuo y acuerdos de comunicación de equipo.',
+  CE: 'Derribar silos con una sesión facilitada de cohesión: mapeo de interdependencias, definición de compromisos compartidos y acuerdos de colaboración.',
+  RA: 'Clarificar roles, métricas de desempeño y procesos de accountability con una sesión de alignment — para que cada persona sepa qué se espera de ella y cómo se mide.',
+  CC: 'Conectar al equipo con el propósito organizacional y diseñar rituales de reconocimiento y desarrollo profesional que generen compromiso real y sostenido.'
+};
+
+const DIM_INSIGHTS = {
+  LD: [
+    'Tu área carece de estructura de liderazgo. El equipo opera en modo reactivo, sin norte claro. Esto tiene un costo directo en rotación, errores y resultados.',
+    'Hay liderazgo intencional pero inconsistente. Sin un sistema de desarrollo, el equipo avanza según el jefe que les toca, no según un plan.',
+    'Los pilares de liderazgo están presentes. Con inversión en las brechas identificadas, puedes acelerar el desarrollo significativamente.',
+    'Sólida cultura de liderazgo. El desafío ahora es sostenerla mientras el equipo crece y el contexto cambia.'
+  ],
+  CT: [
+    'La falta de seguridad psicológica está silenciando a tu equipo. Los errores se ocultan, las ideas no fluyen y la información se distorsiona antes de llegar a quien decide.',
+    'Hay comunicación funcional, pero con filtros. Tu equipo no dice todo lo que piensa — y eso cuesta en calidad de decisiones y velocidad de resolución.',
+    'La confianza existe aunque es frágil. Con estructuras claras de feedback, puedes convertirla en una ventaja competitiva real.',
+    'Tu equipo habla con honestidad. Esta es una de las condiciones más raras y más valiosas en un equipo — y la base de todo lo demás.'
+  ],
+  CE: [
+    'Tu equipo opera en silos. Hay más protección de información que colaboración genuina, y los conflictos se acumulan debajo de la superficie.',
+    'Hay colaboración cuando hay presión o cuando la relación personal es buena — pero no como sistema. Eso lo hace frágil e impredecible.',
+    'Hay buena base de colaboración. El trabajo está en convertir las buenas intenciones en procesos concretos que no dependan de la química personal.',
+    'Tu equipo sabe trabajar junto. Esto es difícil de construir y fácil de perder — la inversión está en sostenerlo.'
+  ],
+  RA: [
+    'La falta de claridad de roles y accountability genera duplicidades, fricción y resultados inconsistentes. Las personas no saben exactamente qué se espera de ellas.',
+    'Los roles están definidos en papel pero no en la práctica. Sin accountability real, los compromisos son intenciones, no acuerdos.',
+    'Hay claridad razonable, pero con brechas cuando cambian los proyectos o el contexto. El trabajo está en sistematizar lo que funciona.',
+    'Hay claridad de roles y consecuencias reales. Esto es la base del alto rendimiento sostenido.'
+  ],
+  CC: [
+    'El nivel de desconexión que describes es una señal de alerta real. Las personas cumplen su trabajo, pero no están comprometidas. El riesgo de rotación es alto.',
+    'Hay compromiso parcial. Los que están comprometidos pueden verse afectados por los que no lo están — y la brecha tiende a crecer.',
+    'El compromiso existe, pero necesita ser cultivado activamente. Sin trabajo intencional, los picos de motivación son temporales.',
+    'Tu equipo tiene propósito compartido — uno de los indicadores más fuertes de retención de talento y rendimiento sostenido.'
+  ]
+};
+
+const TIERS = [
   {
-    category: "Situaciones reales",
-    text: "Tu equipo está en medio de un proyecto tenso. Nadie dice lo que realmente piensa en las reuniones, pero se nota que algo está mal. ¿Qué haces?",
-    options: [
-      { letter: "A", text: "Busco el momento y el espacio para que la persona que más está cargando pueda hablar con honestidad.", profile: "A" },
-      { letter: "B", text: "Intento leer qué está pasando detrás del silencio y propongo una dinámica que cambie la conversación.", profile: "B" },
-      { letter: "C", text: "Planteo directamente que hay algo que no estamos diciendo y propongo resolverlo ya.", profile: "C" }
+    min:0, max:12,
+    bg:'linear-gradient(135deg,#8B1A1A 0%,#C0392B 55%,#9A2020 100%)',
+    badge:'Equipo en Riesgo',
+    title:'Tu equipo necesita intervención urgente',
+    desc:'Las señales que describes no son de bajo rendimiento coyuntural — son indicadores de un sistema bajo presión que, sin intervención, tiende a deteriorarse. La claridad de este diagnóstico es exactamente el primer paso para revertirlo.'
+  },
+  {
+    min:13, max:19,
+    bg:'linear-gradient(135deg,#7A3A05 0%,#D35400 55%,#9A4A10 100%)',
+    badge:'Equipo en Construcción',
+    title:'Potencial real con brechas estructurales',
+    desc:'Tu equipo tiene intención y algunos pilares funcionando, pero hay brechas que limitan su capacidad. No es una crisis — pero tampoco es un equipo operando a su máxima capacidad. Hay trabajo puntual con alto retorno de inversión por hacer.'
+  },
+  {
+    min:20, max:24,
+    bg:'linear-gradient(135deg,#4A2A75 0%,#6B3FA0 55%,#3A2060 100%)',
+    badge:'Equipo con Bases Sólidas',
+    title:'Fundamentos reales, oportunidad de aceleración',
+    desc:'Tu equipo tiene bases sólidas. La mayoría de las dimensiones están funcionando y hay conciencia de dónde mejorar. El siguiente paso no es reparar — es acelerar. Con intervenciones específicas en las brechas identificadas, puedes llevar a un equipo bueno a uno de alto rendimiento.'
+  },
+  {
+    min:25, max:30,
+    bg:'linear-gradient(135deg,#0D4A40 0%,#1A7A6E 55%,#0A3830 100%)',
+    badge:'Equipo de Alto Rendimiento',
+    title:'Posición excepcional — el desafío es sostenerla',
+    desc:'Las condiciones para el alto rendimiento están dadas. Lo que sigue es mantenerlas y expandirlas conforme el equipo crece o el contexto cambia. Incluso los mejores equipos necesitan trabajo proactivo para sostenerse en ese nivel.'
+  }
+];
+
+const QUESTIONS = [
+  // LD (Liderazgo y Dirección)
+  {
+    dim:'LD',
+    text:'Cuando tu equipo enfrenta un cambio importante o una crisis, ¿cuál de estas situaciones describe mejor lo que ocurre?',
+    opts:[
+      {l:'A',t:'El equipo se paraliza o espera instrucciones — hay poca capacidad de reacción autónoma.',s:0},
+      {l:'B',t:'Algunos reaccionan bien, pero hay personas clave que se bloquean o se resisten.',s:1},
+      {l:'C',t:'La mayoría reacciona, aunque la dirección no siempre es coordinada.',s:2},
+      {l:'D',t:'El equipo se adapta rápido y sabe cómo priorizar incluso sin supervisión directa.',s:3}
     ]
   },
   {
-    category: "Toma de decisiones",
-    text: "Tienes que tomar una decisión importante con información incompleta y poco tiempo. ¿Cómo te movés?",
-    options: [
-      { letter: "A", text: "Consulto con las personas más afectadas — su perspectiva me ayuda a decidir mejor.", profile: "A" },
-      { letter: "B", text: "Identifico los supuestos clave, evalúo riesgos y propongo una dirección provisional clara.", profile: "B" },
-      { letter: "C", text: "Decido con lo que tengo y ajusto en el camino — la parálisis cuesta más que el error.", profile: "C" }
+    dim:'LD',
+    text:'¿Cómo se manejan el desarrollo y crecimiento profesional de las personas en tu área?',
+    opts:[
+      {l:'A',t:'No hay planes formales — el desarrollo ocurre solo cuando alguien lo pide o llega la evaluación anual.',s:0},
+      {l:'B',t:'Hay conversaciones ocasionales, pero sin seguimiento ni estructura real.',s:1},
+      {l:'C',t:'Se hacen evaluaciones periódicas, aunque los planes de desarrollo no siempre se ejecutan.',s:2},
+      {l:'D',t:'Cada persona tiene un plan de desarrollo activo con seguimiento y metas concretas.',s:3}
+    ]
+  },
+  // CT (Comunicación y Confianza)
+  {
+    dim:'CT',
+    text:'Cuando alguien del equipo comete un error importante, ¿qué suele ocurrir?',
+    opts:[
+      {l:'A',t:'El error se minimiza u oculta — hay miedo real a las consecuencias o al juicio.',s:0},
+      {l:'B',t:'Se reporta, pero con justificaciones — el ambiente no siempre es seguro para ser honesto.',s:1},
+      {l:'C',t:'Se reporta abiertamente, aunque no siempre hay aprendizaje estructurado del incidente.',s:2},
+      {l:'D',t:'El error se comparte como oportunidad de aprendizaje — hay seguridad psicológica real.',s:3}
     ]
   },
   {
-    category: "Impacto en el equipo",
-    text: "¿Cuál de estas frases describe mejor lo que tu equipo diría de trabajar contigo?",
-    options: [
-      { letter: "A", text: "\"Contigo me siento seguro/a de decir lo que pienso, aunque sea incómodo.\"", profile: "A" },
-      { letter: "B", text: "\"Cuando todo es caos, tú apareces con claridad. No sé cómo lo haces.\"", profile: "B" },
-      { letter: "C", text: "\"Después de trabajar contigo me exijo más — sin darme cuenta subí mi propio estándar.\"", profile: "C" }
+    dim:'CT',
+    text:'¿Cómo describirías la calidad de la retroalimentación que se da en tu área?',
+    opts:[
+      {l:'A',t:'Casi no hay retroalimentación formal — o solo aparece cuando algo sale muy mal.',s:0},
+      {l:'B',t:'Se da de manera informal, pero no siempre de forma honesta o constructiva.',s:1},
+      {l:'C',t:'Hay retroalimentación periódica, aunque no siempre conectada con el desempeño real.',s:2},
+      {l:'D',t:'La retroalimentación es frecuente, honesta y bienvenida por el equipo.',s:3}
+    ]
+  },
+  // CE (Cohesión de Equipo)
+  {
+    dim:'CE',
+    text:'¿Cómo fluye la información entre las personas o áreas que necesitan colaborar?',
+    opts:[
+      {l:'A',t:'La información queda en silos — hay duplicidades, errores y decisiones tomadas sin contexto completo.',s:0},
+      {l:'B',t:'Hay intención de compartir, pero la comunicación entre áreas es inconsistente.',s:1},
+      {l:'C',t:'Funciona en general, con fricciones puntuales que se resuelven caso a caso.',s:2},
+      {l:'D',t:'Hay procesos claros de comunicación y colaboración que funcionan de forma consistente.',s:3}
     ]
   },
   {
-    category: "Liderazgo bajo presión",
-    text: "Un proyecto importante está en riesgo. El equipo está agotado y desmotivado. ¿Cuál es tu primer movimiento?",
-    options: [
-      { letter: "A", text: "Escucho primero. Necesito entender cómo está cada persona antes de proponer cualquier cosa.", profile: "A" },
-      { letter: "B", text: "Busco reconectar al equipo con el propósito — ¿por qué importa lo que estamos haciendo?", profile: "B" },
-      { letter: "C", text: "Replanteo el plan con lo que hay. Priorizo, elimino lo que no es esencial y genero momentum.", profile: "C" }
+    dim:'CE',
+    text:'Cuando hay conflictos dentro del equipo o entre áreas, ¿qué suele ocurrir?',
+    opts:[
+      {l:'A',t:'Los conflictos se evitan o se ignoran hasta que explotan.',s:0},
+      {l:'B',t:'Se manejan de forma reactiva — alguien interviene porque ya escaló demasiado.',s:1},
+      {l:'C',t:'Se abordan, pero no siempre con herramientas o estructura adecuada.',s:2},
+      {l:'D',t:'El equipo tiene capacidad de manejar la tensión de forma constructiva, sin que escale.',s:3}
+    ]
+  },
+  // RA (Roles y Accountability)
+  {
+    dim:'RA',
+    text:'¿Qué tan claras son las responsabilidades y prioridades en tu equipo?',
+    opts:[
+      {l:'A',t:'Hay confusión frecuente sobre quién hace qué — las tareas caen entre sillas.',s:0},
+      {l:'B',t:'Los roles están definidos en papel, pero en la práctica hay ambigüedad.',s:1},
+      {l:'C',t:'En su mayoría está claro, pero los cambios o proyectos nuevos generan confusión.',s:2},
+      {l:'D',t:'Hay claridad de roles y cada persona entiende cómo su trabajo impacta el resultado.',s:3}
     ]
   },
   {
-    category: "Influencia sin autoridad",
-    text: "Necesitas que alguien fuera de tu equipo colabore en algo que no es su prioridad. No tienes autoridad sobre esa persona. ¿Cómo lo abordás?",
-    options: [
-      { letter: "A", text: "Invierto tiempo en construir la relación antes de pedir — las personas ayudan a quienes conocen.", profile: "A" },
-      { letter: "B", text: "Le muestro cómo esto también le conviene — encuentro el ángulo donde nuestros intereses se alinean.", profile: "B" },
-      { letter: "C", text: "Soy directo/a sobre lo que necesito y propongo algo concreto que sea fácil de decir que sí.", profile: "C" }
+    dim:'RA',
+    text:'Cuando una meta no se cumple, ¿qué tiende a pasar?',
+    opts:[
+      {l:'A',t:'Se buscan justificaciones y rara vez hay consecuencias o aprendizaje real.',s:0},
+      {l:'B',t:'Se reconoce que no se cumplió, pero no hay proceso claro para entender por qué.',s:1},
+      {l:'C',t:'Se analiza lo que pasó, aunque el seguimiento posterior no es consistente.',s:2},
+      {l:'D',t:'Hay un proceso de revisión claro, sin señalar culpables, pero con responsabilidad real.',s:3}
+    ]
+  },
+  // CC (Cultura y Compromiso)
+  {
+    dim:'CC',
+    text:'¿Cómo describirías el nivel de motivación y compromiso de tu equipo hoy?',
+    opts:[
+      {l:'A',t:'Hay desconexión visible — las personas cumplen lo mínimo y hay poca energía en el equipo.',s:0},
+      {l:'B',t:'Hay algunos comprometidos, pero también personas que "están de paso" o solo cumplen.',s:1},
+      {l:'C',t:'En general el equipo está comprometido, aunque hay altibajos según el momento.',s:2},
+      {l:'D',t:'El equipo tiene sentido de propósito compartido y hay energía genuina en el trabajo.',s:3}
     ]
   },
   {
-    category: "Visión del liderazgo",
-    text: "Pensando en el impacto que querés dejar como líder, ¿qué te importa más?",
-    options: [
-      { letter: "A", text: "Que las personas que trabajaron conmigo sientan que las vi, las escuché y las hice sentir parte de algo.", profile: "A" },
-      { letter: "B", text: "Que mi equipo sepa cómo pensar y decidir incluso cuando yo no estoy — haberles dejado un marco.", profile: "B" },
-      { letter: "C", text: "Haber elevado el estándar de lo que el equipo cree posible — que se exijan más porque trabajaron conmigo.", profile: "C" }
-    ]
-  },
-  {
-    category: "Autoconocimiento",
-    text: "Siendo honesto/a: ¿cuál de estas situaciones te cuesta más?",
-    options: [
-      { letter: "A", text: "Poner límites cuando alguien me necesita — a veces absorbo demasiado de lo que siente el equipo.", profile: "A" },
-      { letter: "B", text: "Comunicar la dirección de forma simple cuando para mí está todo conectado y tiene muchas capas.", profile: "B" },
-      { letter: "C", text: "Desacelerar lo suficiente como para que el equipo procese antes de seguir avanzando.", profile: "C" }
+    dim:'CC',
+    text:'¿Cómo se manejan el reconocimiento y las oportunidades de crecimiento en tu organización?',
+    opts:[
+      {l:'A',t:'El reconocimiento casi no existe — el buen trabajo se da por sentado.',s:0},
+      {l:'B',t:'Hay reconocimiento ocasional, pero no es sistemático ni percibido como justo.',s:1},
+      {l:'C',t:'Se reconoce el desempeño, aunque no siempre conectado con el desarrollo profesional.',s:2},
+      {l:'D',t:'El reconocimiento es frecuente y el crecimiento está vinculado a resultados concretos.',s:3}
     ]
   }
 ];
 
-const profiles = {
-  A: {
-    icon: "⚡",
-    tag: "El Líder Conector",
-    tagClass: "tag-conector",
-    dividerClass: "divider-conector",
-    blockClass: "block-conector",
-    fillClass: "fill-conector",
-    tagline: '"Tu mayor activo no es tu carisma — es lo que pasa cuando estás en la sala."',
-    desc1: "Lo que distingue a líderes como vos no es que sean simpáticos o empáticos en general. Es algo mucho más específico y más raro: cuando estás presente, las personas hablan con más honestidad, se arriesgan más, y toman mejores decisiones. Eso no es personalidad — es una competencia de liderazgo crítica que la mayoría nunca desarrolla.",
-    desc2: "En un contexto donde la IA puede procesar datos pero no puede crear confianza genuina, tu capacidad de generar seguridad psicológica es una ventaja que ninguna herramienta puede replicar.",
-    superpower: {
-      title: "✦ Tu superpoder",
-      text: "Generás seguridad psicológica sin que nadie lo haya pedido. Haces que las personas hablen cuando normalmente se callan, que fallen hacia adelante en lugar de esconder los errores, y que traigan sus mejores ideas porque saben que van a ser escuchadas."
-    },
-    challenge: {
-      title: "◈ Lo que podés seguir desarrollando",
-      text: "Tu capacidad de absorber lo que siente el equipo es una fortaleza — pero también tiene un costo en tu propia energía. El crecimiento está en aprender a cuidar el clima sin cargarlo todo vos. Y en convertir esa confianza en dirección concreta: la seguridad sin rumbo se convierte en confort."
-    },
-    fact: {
-      text: "Según BCG, las empresas que desarrollan liderazgo generativo — especialmente la dimensión de Heart (corazón) — tienen tasas de éxito en transformación tres veces más altas que sus competidores. Las cuatro cualidades que los empleados más valoran en sus líderes tienen que ver con esta dimensión.",
-      source: "BCG · Generative Leadership (2022)"
-    },
-    ctaTitle: "Para líderes Conectores como vos",
-    ctaText: "Tenemos programas que ayudan a convertir tu fortaleza relacional en impacto estratégico — sin perder lo que te hace único como líder."
-  },
-  B: {
-    icon: "🧭",
-    tag: "El Líder Traductor",
-    tagClass: "tag-traductor",
-    dividerClass: "divider-traductor",
-    blockClass: "block-traductor",
-    fillClass: "fill-traductor",
-    tagline: '"Donde otros ven caos, vos ves un problema que tiene solución."',
-    desc1: "Tu competencia más valiosa no es que seas estratégico en el sentido clásico — es algo más preciso y más escaso: podés tomar información incompleta, contexto caótico y presión real, y convertirlo en un siguiente paso claro para tu equipo. Eso es lo que el research llama toma de decisiones en ambigüedad, y es la habilidad más demandada y menos desarrollada en líderes hoy.",
-    desc2: "Mientras la mayoría de líderes se paraliza esperando tener todos los datos, vos ya estás identificando el patrón y proponiendo una dirección. Tu equipo lo sabe — y por eso confía en vos cuando el panorama no está claro.",
-    superpower: {
-      title: "✦ Tu superpoder",
-      text: "Convertís ambigüedad en claridad. No necesitás tener todo resuelto para dar dirección — podés trabajar con lo que hay, nombrar lo incierto sin paralizarte, y mantener al equipo orientado cuando nadie más sabe hacia dónde ir."
-    },
-    challenge: {
-      title: "◈ Lo que podés seguir desarrollando",
-      text: "A veces llegás solo/a a la respuesta — y eso te hace perder el buy-in del equipo. Tu crecimiento está en comunicar el proceso de pensamiento, no solo la conclusión. Cuando las personas entienden cómo pensás, siguen la dirección porque la comprenden — no solo porque confían en vos."
-    },
-    fact: {
-      text: "BCG encontró que las organizaciones donde los líderes combinan las tres dimensiones — Head (visión), Heart (personas) y Hands (ejecución) — logran mejora de desempeño sostenida en el 96% de los casos, comparado con solo el 33% en quienes las desarrollan parcialmente.",
-      source: "BCG · Generative Leadership (2022)"
-    },
-    ctaTitle: "Para líderes Traductores como vos",
-    ctaText: "Tenemos programas que ayudan a comunicar tu visión de forma que conecte con distintos perfiles y a construir equipos que puedan decidir incluso cuando vos no estás."
-  },
-  C: {
-    icon: "🔥",
-    tag: "El Líder Activador",
-    tagClass: "tag-activador",
-    dividerClass: "divider-activador",
-    blockClass: "block-activador",
-    fillClass: "fill-activador",
-    tagline: '"No solo hacés que las cosas pasen — hacés que las personas se exijan más."',
-    desc1: "Lo que te hace distinto/a no es que seas ejecutor/a o que te guste que los resultados lleguen. Es un efecto específico que tenés en los equipos: después de trabajar con vos, las personas se exigen más a sí mismas. No porque las hayas presionado — sino porque elevaste el estándar de lo que creen posible.",
-    desc2: "Eso es lo que BCG llama la dimensión Hands del liderazgo generativo — y va mucho más allá de la ejecución operativa. Es la capacidad de generar momentum donde hay inercia, de convertir metas ordinarias en compromisos reales, y de crear equipos que saben cómo ganar.",
-    superpower: {
-      title: "✦ Tu superpoder",
-      text: "Contagiás estándar. No porque impongas — sino porque tu nivel de exigencia y tu forma de moverse genera que los demás quieran estar a la altura. Eso convierte equipos promedio en equipos que se sorprenden a sí mismos."
-    },
-    challenge: {
-      title: "◈ Lo que podés seguir desarrollando",
-      text: "Tu velocidad y tu nivel de exigencia son fortalezas — pero a veces el equipo necesita que desaceleres lo suficiente para que procese, descanse y entienda hacia dónde va antes de seguir corriendo. Tu crecimiento está en construir sistemas que sostengan el ritmo cuando vos no estás, y en soltar el control suficiente para que otros lideren."
-    },
-    fact: {
-      text: "Según BCG, el 72% de empleados ya usa IA regularmente — pero la brecha entre líderes y equipos operativos se está ampliando. Los líderes que más impacto tienen en cerrar esa brecha son los que elevan el estándar de sus equipos desde adentro, no los que solo adoptan herramientas.",
-      source: "BCG · AI at Work Survey (2025)"
-    },
-    ctaTitle: "Para líderes Activadores como vos",
-    ctaText: "Tenemos programas que ayudan a convertir tu energía de ejecución en desarrollo genuino de equipo — para que el estándar se sostenga incluso cuando vos no estás mirando."
-  }
-};
+/* ─── STATE ─────────────────────────────────────────── */
+let curr = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
 
-let current = 0;
-let answers = new Array(questions.length).fill(null);
+/* ─── SCREENS ───────────────────────────────────────── */
+function showScreen(id) {
+  ['intro','quiz','capture','result'].forEach(s => {
+    const el = document.getElementById(s);
+    el.style.display = 'none';
+    el.classList.remove('active');
+  });
+  const t = document.getElementById(id);
+  t.style.display = 'block';
+  t.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-function buildQuestions() {
-  const container = document.getElementById('questions-container');
-  container.innerHTML = '';
-  questions.forEach((q, i) => {
-    const block = document.createElement('div');
-    block.className = 'question-block' + (i === 0 ? ' active' : '');
-    block.id = 'q' + i;
-    block.innerHTML = `
-      <div class="q-category">${q.category}</div>
-      <div class="q-number">Pregunta ${i+1} de ${questions.length}</div>
+/* ─── BUILD QUIZ ────────────────────────────────────── */
+function buildQuiz() {
+  const c = document.getElementById('qcontainer');
+  c.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const d = document.createElement('div');
+    d.className = 'qblock' + (i===0?' active':'');
+    d.id = 'q'+i;
+    d.innerHTML = `
+      <div class="q-num">Pregunta ${i+1} de ${QUESTIONS.length}</div>
       <div class="q-text">${q.text}</div>
       <div class="options">
-        ${q.options.map((o, j) => `
-          <div class="option" id="opt-${i}-${j}" onclick="selectOption(${i}, ${j}, '${o.profile}')">
-            <div class="opt-letter">${o.letter}</div>
-            <div class="opt-text">${o.text}</div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-    container.appendChild(block);
+        ${q.opts.map((o,j) => `
+          <div class="opt" id="opt-${i}-${j}" onclick="pickOpt(${i},${j},${o.s})">
+            <div class="opt-ltr">${o.l}</div>
+            <div class="opt-txt">${o.t}</div>
+          </div>`).join('')}
+      </div>`;
+    c.appendChild(d);
   });
 }
 
-function selectOption(qIdx, optIdx, profile) {
-  answers[qIdx] = { optIdx, profile };
-  document.querySelectorAll('#q' + qIdx + ' .option').forEach((el, i) => {
-    el.classList.toggle('selected', i === optIdx);
-  });
-  document.getElementById('btn-next').classList.add('ready');
+function updateQuizTop() {
+  const q = QUESTIONS[curr];
+  const dim = DIMS.find(d=>d.id===q.dim);
+  document.getElementById('curr-dim-dot').style.background = dim.color;
+  document.getElementById('curr-dim-label').style.color = dim.color;
+  document.getElementById('curr-dim-label').textContent = dim.name;
+  const pct = ((curr+1)/QUESTIONS.length)*100;
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-txt').textContent = 'Pregunta '+(curr+1)+' de '+QUESTIONS.length;
+  document.getElementById('btn-back').style.visibility = curr>0?'visible':'hidden';
+  const bn = document.getElementById('btn-next');
+  bn.textContent = curr===QUESTIONS.length-1?'Ver mi diagnóstico →':'Siguiente →';
+  bn.classList.toggle('on', answers[curr]!==null);
 }
 
-function updateProgress() {
-  const total = questions.length;
-  const pct = ((current + 1) / total) * 100;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = 'Pregunta ' + (current+1) + ' de ' + total;
-  document.getElementById('btn-back').style.visibility = current > 0 ? 'visible' : 'hidden';
-  const btn = document.getElementById('btn-next');
-  btn.textContent = current === total - 1 ? 'Ver mi resultado →' : 'Siguiente →';
-  btn.classList.toggle('ready', answers[current] !== null);
+function pickOpt(qi, oi, score) {
+  answers[qi] = score;
+  document.querySelectorAll('#q'+qi+' .opt').forEach((el,i)=>el.classList.toggle('selected',i===oi));
+  document.getElementById('btn-next').classList.add('on');
 }
 
-function nextQuestion() {
-  if (answers[current] === null) return;
-  if (current < questions.length - 1) {
-    document.getElementById('q' + current).classList.remove('active');
-    current++;
-    document.getElementById('q' + current).classList.add('active');
-    updateProgress();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+function nextQ() {
+  if(answers[curr]===null) return;
+  if(curr < QUESTIONS.length-1) {
+    document.getElementById('q'+curr).classList.remove('active');
+    curr++;
+    document.getElementById('q'+curr).classList.add('active');
+    updateQuizTop();
+    window.scrollTo({top:0,behavior:'smooth'});
   } else {
     showScreen('capture');
   }
 }
 
-function prevQuestion() {
-  if (current > 0) {
-    document.getElementById('q' + current).classList.remove('active');
-    current--;
-    document.getElementById('q' + current).classList.add('active');
-    updateProgress();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+function prevQ() {
+  if(curr>0) {
+    document.getElementById('q'+curr).classList.remove('active');
+    curr--;
+    document.getElementById('q'+curr).classList.add('active');
+    updateQuizTop();
+    window.scrollTo({top:0,behavior:'smooth'});
   }
-}
-
-function showScreen(id) {
-  ['intro','quiz','capture','result'].forEach(function(s) {
-    var el = document.getElementById(s);
-    el.style.display = 'none';
-    el.classList.remove('active');
-  });
-  var target = document.getElementById(id);
-  target.style.display = 'block';
-  target.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function startQuiz() {
-  buildQuestions();
-  updateProgress();
+  buildQuiz();
+  updateQuizTop();
   showScreen('quiz');
 }
 
-function submitCapture() {
-  var email = document.getElementById('cap-email').value.trim();
-  if (!email) {
+/* ─── CAPTURE ───────────────────────────────────────── */
+function submitCap() {
+  const email = document.getElementById('cap-email').value.trim();
+  if(!email) {
+    document.getElementById('cap-email').style.borderColor='var(--orange)';
     document.getElementById('cap-email').focus();
-    document.getElementById('cap-email').style.borderColor = 'var(--naranja)';
     return;
   }
+  // ─── MailerLite integration ───────────────────────────
+  // To connect MailerLite: replace the URL below with your
+  // MailerLite group subscription API endpoint, or use their
+  // embedded form JS. Example:
+  // fetch('https://api.mailerlite.com/api/v2/subscribers',{
+  //   method:'POST', headers:{'X-MailerLite-ApiKey':'YOUR_KEY','Content-Type':'application/json'},
+  //   body: JSON.stringify({email, fields:{name: document.getElementById('cap-name').value}})
+  // });
+  // ─────────────────────────────────────────────────────
   showResult();
 }
 
-function skipCapture() { showResult(); }
+function skipCap() { showResult(); }
 
-function showResult() {
-  var scores = { A: 0, B: 0, C: 0 };
-  answers.forEach(function(a) { if (a) scores[a.profile]++; });
-  var winner = Object.entries(scores).sort(function(x,y){ return y[1]-x[1]; })[0][0];
-  var p = profiles[winner];
-
-  document.getElementById('res-icon').textContent = p.icon;
-  var tagEl = document.getElementById('res-tag');
-  tagEl.textContent = p.tag;
-  tagEl.className = 'result-tag ' + p.tagClass;
-  document.getElementById('res-name').textContent = p.tag;
-  document.getElementById('res-tagline').textContent = p.tagline;
-  document.getElementById('res-divider').className = 'result-divider ' + p.dividerClass;
-
-  document.getElementById('res-body').innerHTML =
-    '<p>' + p.desc1 + '</p>' +
-    '<p>' + p.desc2 + '</p>' +
-    '<div class="result-block ' + p.blockClass + '"><h4>' + p.superpower.title + '</h4><p>' + p.superpower.text + '</p></div>' +
-    '<div class="result-block ' + p.blockClass + '"><h4>' + p.challenge.title + '</h4><p>' + p.challenge.text + '</p></div>' +
-    '<div class="fact-box">' +
-      '<div class="fact-box-icon">📊</div>' +
-      '<div class="fact-box-content">' +
-        '<span class="fact-box-label">Lo que dice el research</span>' +
-        '<p class="fact-box-text">' + p.fact.text + '</p>' +
-        '<span class="fact-box-source">— ' + p.fact.source + '</span>' +
-      '</div>' +
-    '</div>';
-
-  document.getElementById('cta-title').textContent = p.ctaTitle;
-  document.getElementById('cta-text').textContent = p.ctaText;
-
-  var total = questions.length;
-  showScreen('result');
-  setTimeout(function() {
-    document.getElementById('bar-a').style.width = (scores.A / total * 100) + '%';
-    document.getElementById('bar-b').style.width = (scores.B / total * 100) + '%';
-    document.getElementById('bar-c').style.width = (scores.C / total * 100) + '%';
-    document.getElementById('num-a').textContent = scores.A + '/' + total;
-    document.getElementById('num-b').textContent = scores.B + '/' + total;
-    document.getElementById('num-c').textContent = scores.C + '/' + total;
-  }, 300);
+/* ─── SCORES ────────────────────────────────────────── */
+function getScores() {
+  const scores = {};
+  DIMS.forEach(d => scores[d.id] = 0);
+  QUESTIONS.forEach((q, i) => {
+    if(answers[i] !== null) scores[q.dim] += answers[i];
+  });
+  return scores;
 }
 
-function restartQuiz() {
-  current = 0;
-  answers = new Array(questions.length).fill(null);
-  document.getElementById('cap-name').value = '';
-  document.getElementById('cap-email').value = '';
-  document.getElementById('cap-consent').checked = false;
-  document.getElementById('bar-a').style.width = '0';
-  document.getElementById('bar-b').style.width = '0';
-  document.getElementById('bar-c').style.width = '0';
-  buildQuestions();
-  updateProgress();
+function getTotalScore(scores) {
+  return Object.values(scores).reduce((a,b)=>a+b,0);
+}
+
+function getStatus(score) {
+  if(score<=1) return {label:'Área de Atención',  cls:'status-critico', idx:0};
+  if(score<=3) return {label:'En Construcción',   cls:'status-riesgo',  idx:1};
+  if(score<=5) return {label:'En Desarrollo',     cls:'status-proceso', idx:2};
+  return             {label:'Área Sólida',        cls:'status-fortaleza',idx:3};
+}
+
+/* ─── RADAR CHART ───────────────────────────────────── */
+function drawRadar(scores) {
+  const canvas = document.getElementById('radarCanvas');
+  const ctx = canvas.getContext('2d');
+  // Canvas is 400x400 logical pixels, displayed smaller via CSS
+  const W = 400, H = 400;
+  const cx = W/2, cy = H/2;
+  const R = 105;           // pentagon radius
+  const labelR = R + 32;   // label ring radius
+  const n = DIMS.length;
+  ctx.clearRect(0,0,W,H);
+
+  function pts(radius, phase) {
+    return Array.from({length:n},(_,i)=>{
+      const a = phase + (2*Math.PI*i)/n;
+      return [cx+radius*Math.cos(a), cy+radius*Math.sin(a), a];
+    });
+  }
+
+  const phase = -Math.PI/2;
+
+  // Grid rings
+  [0.25,0.5,0.75,1].forEach(frac=>{
+    const gpts = pts(R*frac,phase);
+    ctx.beginPath();
+    gpts.forEach(([x,y],i)=>i===0?ctx.moveTo(x,y):ctx.lineTo(x,y));
+    ctx.closePath();
+    ctx.strokeStyle='rgba(107,63,160,0.13)';
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+    if(frac===1){ctx.fillStyle='rgba(107,63,160,0.03)';ctx.fill();}
+  });
+
+  // Axis lines
+  pts(R,phase).forEach(([x,y])=>{
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);
+    ctx.strokeStyle='rgba(107,63,160,0.14)';ctx.lineWidth=1;ctx.stroke();
+  });
+
+  // Score polygon
+  const maxPerDim = 6;
+  const rawPts = DIMS.map(({id},i)=>{
+    const a = phase + (2*Math.PI*i)/n;
+    const frac = Math.max(scores[id],0.08) / maxPerDim; // slight min so 0 still shows
+    return [cx+R*frac*Math.cos(a), cy+R*frac*Math.sin(a)];
+  });
+  ctx.beginPath();
+  rawPts.forEach(([x,y],i)=>i===0?ctx.moveTo(x,y):ctx.lineTo(x,y));
+  ctx.closePath();
+  ctx.fillStyle='rgba(107,63,160,0.20)';ctx.fill();
+  ctx.strokeStyle='#6B3FA0';ctx.lineWidth=3;ctx.stroke();
+
+  // Vertex dots
+  rawPts.forEach(([x,y])=>{
+    ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);
+    ctx.fillStyle='#6B3FA0';ctx.fill();
+    ctx.strokeStyle='white';ctx.lineWidth=2.5;ctx.stroke();
+  });
+
+  // Labels — align text based on which side of center
+  const shortNames = ['Liderazgo','Comunic.','Cohesión','Roles','Cultura'];
+  ctx.font='bold 18px "DM Sans",Arial,sans-serif';
+  ctx.fillStyle='rgba(28,43,74,0.72)';
+  ctx.textBaseline='middle';
+
+  pts(labelR,phase).forEach(([x,y,a],i)=>{
+    const cosA = Math.cos(a);
+    // right side: left-align; left side: right-align; top/bottom: center
+    if(cosA > 0.15){
+      ctx.textAlign='left';
+      ctx.fillText(shortNames[i], x+8, y);
+    } else if(cosA < -0.15){
+      ctx.textAlign='right';
+      ctx.fillText(shortNames[i], x-8, y);
+    } else {
+      ctx.textAlign='center';
+      ctx.fillText(shortNames[i], x, y);
+    }
+  });
+}
+
+/* ─── RENDER RESULT ─────────────────────────────────── */
+function showResult() {
+  const scores = getScores();
+  const total  = getTotalScore(scores);
+
+  // Tier
+  const tier = TIERS.find(t=>total>=t.min && total<=t.max) || TIERS[0];
+  document.getElementById('tier-card').style.background = tier.bg;
+  document.getElementById('tier-score').textContent = total;
+  document.getElementById('tier-badge').textContent  = tier.badge;
+  document.getElementById('tier-title').textContent  = tier.title;
+  document.getElementById('tier-desc').textContent   = tier.desc;
+
+  // Radar legend
+  const legend = document.getElementById('radar-legend');
+  legend.innerHTML = DIMS.map(d=>{
+    const sc = scores[d.id];
+    const st = getStatus(sc);
+    return `<div class="legend-row">
+      <div class="legend-dot" style="background:${d.color}"></div>
+      <span class="legend-name">${d.name}</span>
+      <span class="legend-score">${sc}</span>
+      <span class="legend-max">/6</span>
+    </div>`;
+  }).join('');
+
+  // Dim bars
+  const dimsList = document.getElementById('dims-list');
+  dimsList.innerHTML = DIMS.map(d=>{
+    const sc = scores[d.id];
+    const st = getStatus(sc);
+    const pct = (sc/6)*100;
+    const insight = DIM_INSIGHTS[d.id][st.idx];
+    return `<div class="dim-row">
+      <div class="dim-top">
+        <span class="dim-name">
+          <div class="dim-name-dot" style="background:${d.color}"></div>
+          ${d.name}
+        </span>
+        <span class="dim-status ${st.cls}">${st.label}</span>
+      </div>
+      <div class="dim-track">
+        <div class="dim-fill" style="background:${d.color};width:0" data-w="${pct}"></div>
+      </div>
+      <p class="dim-insight">${insight}</p>
+    </div>`;
+  }).join('');
+
+  // Priorities (3 lowest scores)
+  const sorted = [...DIMS].sort((a,b)=>scores[a.id]-scores[b.id]).slice(0,3);
+  const prioList = document.getElementById('priorities-list');
+  prioList.innerHTML = sorted.map((d,i)=>{
+    return `<div class="priority-card" style="border-left-color:${d.color}">
+      <div class="priority-num">Prioridad ${i+1}</div>
+      <div class="priority-title">${d.name} — ${scores[d.id]}/6</div>
+      <p class="priority-action">${ACTIONS[d.id]}</p>
+    </div>`;
+  }).join('');
+
+  showScreen('result');
+
+  // Animate bars after screen shows
+  setTimeout(()=>{
+    document.querySelectorAll('.dim-fill[data-w]').forEach(el=>{
+      el.style.width = el.dataset.w+'%';
+    });
+    drawRadar(scores);
+  }, 250);
+}
+
+/* ─── UTILITIES ─────────────────────────────────────── */
+function retryQuiz() {
+  curr = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  document.getElementById('cap-name').value='';
+  document.getElementById('cap-email').value='';
+  document.getElementById('cap-consent').checked=false;
+  buildQuiz();
+  updateQuizTop();
   showScreen('quiz');
 }
 
 function shareLinkedIn() {
-  var url = window.location.href;
-  var text = '¡Hice este quiz de liderazgo de Alfa Consultores y descubrí algo que no sabía de mí mismo/a como líder!';
-  window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url) + '&summary=' + encodeURIComponent(text), '_blank');
+  const url = window.location.href;
+  const text = 'Hice el Diagnóstico de Equipo de Alfa Consultores — 10 preguntas que revelan las brechas reales de tu equipo en 5 dimensiones. Vale la pena:';
+  window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(url)+'&summary='+encodeURIComponent(text),'_blank');
 }
 
 function copyLink() {
-  navigator.clipboard.writeText(window.location.href).then(function() { alert('¡Link copiado!'); });
+  navigator.clipboard.writeText(window.location.href).then(()=>alert('¡Link copiado!'));
 }
 </script>
-
 </body>
 </html>
